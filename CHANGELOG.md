@@ -32,5 +32,7 @@ follows [Common Changelog](https://common-changelog.org/).
 - Imported deep dives `zod4-typescript` and `effect-v4`, with manifests
   adapted to the catalogue's contract
   ([ADR 0003](docs/adr/0003-imported-skill-provenance.md)).
+- `docs/routing-scenarios.md`, the router's evaluation set, with its contract
+  test pinning the six design scenarios.
 - Architecture decision records for verification ownership, the TypeScript 7
   versioned boundary, and imported-skill provenance.

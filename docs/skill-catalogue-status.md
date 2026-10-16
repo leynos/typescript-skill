@@ -151,6 +151,8 @@ TypeScript 7.0.2 with Bun 1.4.3.
   principles, rejected alternatives.
 - [Source inventory](source-inventory.md) — what the six estate repositories
   contain, dated.
+- [Routing scenarios](routing-scenarios.md) — the router's evaluation set,
+  with the six design scenarios pinned by the contract suite.
 - [ADR 0001](adr/0001-verification-skill-ownership.md) — the verification
   deep dives move here and `typescript-verification` owns them.
 - [ADR 0002](adr/0002-typescript-7-versioned-boundary.md) — why the

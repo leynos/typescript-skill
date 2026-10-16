@@ -67,6 +67,14 @@ ______________________________________________________________________
 - [Source inventory](docs/source-inventory.md): what the six estate
   repositories actually contain.
 - [TypeScript router](skills/typescript-router/SKILL.md): the entry point.
+- [Browser main-thread performance](skills/browser-main-thread-performance/SKILL.md):
+  the decision sequence for responsiveness.
+- [TypeScript verification](skills/typescript-verification/SKILL.md): the
+  question-first selector.
+- [TypeScript 7 transition](skills/typescript-7-transition/SKILL.md): the
+  version-pinned compiler guidance.
+- [Routing scenarios](docs/routing-scenarios.md): the router's evaluation
+  set, drawn from the estate.
 
 ______________________________________________________________________
 

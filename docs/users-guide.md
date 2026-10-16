@@ -58,6 +58,32 @@ The language spine owns the questions that are about the code itself:
 - *How code is resolved, built, and consumed* →
   `typescript-modules-and-packaging`.
 
+The runtime and architecture skills own the questions that are about where code
+runs and what it is:
+
+- *Interaction latency, frames, long tasks, CSS versus script, worker offload*
+  → `browser-main-thread-performance`.
+- *Component ownership, effects, accessibility, localization, component
+  tests* → `react-and-accessible-ui`.
+- *Process lifecycle, signals, streams, child processes, CLI contract, Node
+  versus Bun* → `node-bun-and-processes`.
+- *Electron privilege separation, typed IPC, native add-ons, renderer
+  scheduling* → `electron-and-ipc`.
+- *Public surface, layering, shared protocol packages, plugins,
+  compatibility* → `arch-typescript-package-design`.
+
+The assurance and tooling skills own evidence and enforcement:
+
+- *Which test to write and at what level* → `typescript-testing`.
+- *Cheap invariant over many inputs* → `fast-check` directly.
+- *Choosing between tests, type tests, properties, stateful or race
+  exploration, mutation testing, and proof* → `typescript-verification`, then
+  `fast-check` or `lemmascript`.
+- *Which tool owns a static concern; what no linter may claim* →
+  `typescript-quality-tools`; Biome itself → `biome-typescript`.
+- *Upgrading from TypeScript 6 to 7, removed options, a tool that needs the
+  6.0 API* → `typescript-7-transition`.
+
 Pairing rules:
 
 - Boundary work pairs boundaries with errors: what is accepted, then what
@@ -65,6 +91,11 @@ Pairing rules:
 - Async work at a process or worker edge pairs async with errors.
 - Publishing work pairs modules and packaging with types and APIs when
   declaration shape is the problem.
+- Browser responsiveness pairs the browser skill with async for backpressure,
+  or with React when the fix is inside a component.
+- Electron work pairs with boundaries for a new privileged command.
+- A clear invariant goes straight to `fast-check`; `typescript-verification`
+  chooses when the rung is unclear.
 - Two language skills are never both primary. Load the one that explains the
   failure.
 
@@ -76,6 +107,30 @@ one switch at a time per directory and never relaxes the base. The types skill
 carries the order and the measurements. The example gate's own `tsconfig`
 models the greenfield posture.
 
+## Testing hierarchy
+
+Pick the first rung whose evidence matches the question:
+
+0. **The type system**, with a compile-time test for a public vocabulary.
+1. **Named example**: one scenario, regression, or error contract.
+2. **Table**: a finite truth table where each row means something.
+3. **Lightweight property**: one relation over many cheap inputs.
+4. **Model-based or scheduled property**: operation sequences or
+   interleavings.
+5. **Proof**: a load-bearing property over every input in a pure kernel.
+
+Mutation testing sits beside the hierarchy. Rendering, integration,
+accessibility, timing, and package consumers leave it for specialist tests.
+
+## When to reach for the TypeScript 7 skill
+
+`typescript-7-transition` is version-pinned and review-dated. Load it when a
+project upgrades, when `tsc` rejects an option the previous compiler accepted,
+or when a tool that imports `typescript` as a library breaks. It names the new
+defaults, the removed options, the npm-alias recipes for running both
+compilers, and the estate's three transition states. Everyday type questions on
+a project already on 7 go to the evergreen skills.
+
 ## Imported deep dives
 
 Some skills were written elsewhere and imported with their content intact:
@@ -86,6 +141,11 @@ Some skills were written elsewhere and imported with their content intact:
   renames. Reached from `typescript-errors-and-outcomes`. It carries two helper
   scripts, `has_export.py` and `check_v3_patterns.py`, that check an installed
   Effect against the skill's rename tables.
+- `fast-check` and `lemmascript`, the verification deep dives, reached from
+  `typescript-verification`. This catalogue is their canonical home
+  ([ADR 0001](adr/0001-verification-skill-ownership.md)).
+- `biome-typescript` for Biome configuration, migration, and rule semantics,
+  reached from `typescript-quality-tools`.
 
 They keep their original voice and spelling; see
 [ADR 0003](adr/0003-imported-skill-provenance.md).
