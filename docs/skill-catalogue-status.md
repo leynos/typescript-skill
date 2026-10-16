@@ -1,0 +1,104 @@
+# Skill catalogue status
+
+Snapshot of what is active in `skills/`, where each imported skill came from,
+and what to re-derive when the tooling moves. The example gate compiles under
+TypeScript 7.0.2 with Bun 1.4.3.
+
+## Active skills
+
+### Router
+
+- `typescript-router` — main entry point: the four opening questions, the
+  route list, pairing rules, and escalation. References: `routing-matrix.md`.
+
+### Language spine
+
+- `typescript-types-and-apis` — narrowing, generics, overloads, variance,
+  branded types, exhaustive unions, `unknown` versus `any`, assertions,
+  `satisfies`, suppression discipline, and the greenfield and brownfield
+  strictness ratchet. References: `strictness-ratchet.md`,
+  `narrowing-and-guards.md`, `generics-and-variance.md`,
+  `suppression-discipline.md`. Fixture: `diagnostics/strictness-switches.ts`.
+- `typescript-data-and-state` — absence versus `undefined` versus `null`,
+  identity, immutable updates, discriminated state machines, deterministic
+  transitions, serializable state, model versus transport. References:
+  `absence-and-identity.md`, `state-machines.md`, `model-vs-transport.md`.
+  Fixture: `positive/exhaustive-state.ts`.
+- `typescript-boundaries-and-validation` — the boundary catalogue, parse not
+  validate, schema library selection, environment and configuration, generated
+  clients, IPC and worker messages, plugins and native bindings. References:
+  `boundary-catalogue.md`, `schema-library-selection.md`,
+  `generated-clients.md`.
+- `typescript-errors-and-outcomes` — thrown versus returned, one error class
+  with a `code`, causes, cancellation versus timeout versus failure, wire
+  shapes for errors, logging ownership. References: `outcome-shapes.md`,
+  `cancellation-timeout-failure.md`, `serializing-errors.md`.
+- `typescript-async-and-concurrency` — promise ownership, scopes,
+  `AbortSignal`, bounded fan-out, backpressure policies, yield versus batch,
+  the off-thread threshold, the worker abstraction matrix, and the vocabulary
+  that keeps a logical worker apart from a thread. References:
+  `promise-ownership.md`, `bounded-concurrency-and-backpressure.md`,
+  `workers-and-pools.md`, `vocabulary.md`.
+- `typescript-modules-and-packaging` — module settings by project kind,
+  `.ts` imports, `exports` maps, `development` conditions, dual packages and
+  declarations, `publint`, `attw`, packed-install smoke tests, generated code
+  ownership. References: `esm-cjs-and-exports.md`,
+  `declarations-and-dual-packages.md`, `consumer-checks.md`,
+  `generated-code.md`.
+
+### Imported deep dives
+
+- `zod4-typescript` — Zod 4 schemas, parsing, errors, inference, the Zod 3
+  migration traps, `zod/mini`, codecs, and JSON Schema. Owner:
+  `typescript-boundaries-and-validation`. Source: `agent-helper-scripts`
+  `skills/zod4-typescript` as of 2026-10-16. Line envelope: 540. References:
+  `zod-mini-mapping.md`, `codec-recipes.md`, `json-schema-options.md`.
+- `effect-v4` — Effect 4.x house style, the v3 reflexes that break, the
+  package and import map, and the per-module rename tables. Owner:
+  `typescript-errors-and-outcomes`. Source: `effect-v4.skill` bundle built
+  2026-10-15 against `effect@4.0.5`, upstream material from `Effect-TS/effect`
+  commit `5a67e0b3`. Line envelope: 260. References: `core.md`, `schema.md`,
+  `streams.md`, `platform.md`, `testing.md`, `migration.md`,
+  `renames/<module>.md`, `upstream/`. Scripts: `has_export.py`,
+  `check_v3_patterns.py`.
+
+## Documentation
+
+- [Agent instructions](../AGENTS.md) — commit gates and the rules for changes
+  under `skills/`.
+- [README](../README.md) — installation and quick start.
+- [Users' guide](users-guide.md) — invocation and routing.
+- [Developers' guide](developers-guide.md) — gates, the contract suite, and
+  the example gate.
+- [Design principles](design-principles.md) — inheritance, governing
+  principles, rejected alternatives.
+- [Source inventory](source-inventory.md) — what the six estate repositories
+  contain, dated.
+- [ADR 0001](adr/0001-verification-skill-ownership.md) — the verification
+  deep dives move here and `typescript-verification` owns them.
+- [ADR 0002](adr/0002-typescript-7-versioned-boundary.md) — why the
+  TypeScript 7 material is version-pinned.
+- [ADR 0003](adr/0003-imported-skill-provenance.md) — how imported skills are
+  adapted and what is left alone.
+
+## Maintenance
+
+- **Example gate.** `examples/package.json` pins TypeScript 7.0.2. Bump it
+  with `typescript-7-transition`'s review date and re-run `make examples`.
+- **`zod4-typescript`** describes Zod 4.3.x. Recheck the `zod/mini` mapping
+  and the JSON Schema options when Zod 4.4 or 5 ships (npm showed 4.6.7 on
+  2026-10-16; the skill's examples still apply but the "latest" line is stale).
+- **`effect-v4`** describes `effect@4.0.5`. The rename tables are generated
+  from upstream; regenerate from the bundle's source when a 4.x minor adds or
+  removes modules. Its scripts assume Python 3 on `PATH`.
+- **Worker abstraction versions** named in
+  `typescript-async-and-concurrency/references/workers-and-pools.md` were
+  checked on 2026-10-16 (Comlink 4.4.2, `workerpool` 10.0.3, Piscina 5.3.2).
+
+## Open questions
+
+- Whether to add a spelling gate. Imported skills are American-spelled;
+  rewriting them is churn and excluding them weakens the gate. Deferred until
+  the imported set is stable.
+- Whether `effect-v4`'s Python scripts should move under the repository's
+  Ruff scope. They are the skill's artefacts and ship with it; deferred.

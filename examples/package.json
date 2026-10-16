@@ -1,0 +1,14 @@
+{
+  "name": "typescript-skill-examples",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Positive examples and expected-diagnostic fixtures for the TypeScript skill catalogue, type-checked under the pinned TypeScript release.",
+  "packageManager": "bun@1.4.3",
+  "scripts": {
+    "check": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}
