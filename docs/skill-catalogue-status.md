@@ -91,7 +91,28 @@ TypeScript 7.0.2 with Bun 1.4.3.
   none of them establish. References: `selection-matrix.md`,
   `mutation-testing.md`, `state-and-race-exploration.md`.
 
+### Tools and transition
+
+- `typescript-quality-tools` — one owner per static concern, the three rings
+  of enforcement, the `prefer-css-state` proposal and its fixture policy,
+  Stylelint and CSS policy, the Oxlint JS plugin facts as of a review date, and
+  what must stay runtime evidence. References: `static-owners-matrix.md`,
+  `prefer-css-state.md`, `stylelint-and-css-policy.md`, `oxlint-js-plugins.md`.
+- `typescript-7-transition` — version-pinned to TypeScript 7.0.2 (reviewed
+  2026-10-16): new defaults, removed options and replacements, semantic
+  changes, side-by-side installation through npm aliases, the compare script,
+  the programmatic API gap and the tools it blocks, and the estate's three
+  transition states. References: `defaults-and-removed-options.md`,
+  `side-by-side-and-aliases.md`, `programmatic-api-gap.md`,
+  `estate-transition-states.md`.
+
 ### Imported deep dives
+
+- `biome-typescript` — Biome configuration, file targeting, lint solutions,
+  strict rules beyond recommended, ESLint and Prettier migration, CI and git
+  hooks. Owner: `typescript-quality-tools`. Source: `agent-helper-scripts`
+  `skills/biome-typescript` as of 2026-10-16. Line envelope: 400. References:
+  `lint-solutions.md`, `strict-rules.md`, `migration.md`, `ci-hooks.md`.
 
 - `fast-check` — arbitraries, the filtering trap, model-based testing, the
   scheduler for races, 4.x versus 3.x idioms, replay, CI tiering. Owner:
@@ -139,6 +160,16 @@ TypeScript 7.0.2 with Bun 1.4.3.
 
 ## Maintenance
 
+- **`typescript-7-transition`** is version-pinned material. Revisit it when
+  TypeScript 7.1 ships its programmatic API: re-derive the blocked-tool table,
+  the `typescript/unstable/*` subpath list, the removed-option list against the
+  release notes, and the estate states against the source inventory. Set a new
+  review date in the skill and its references.
+- **`oxlint-js-plugins.md`** in `typescript-quality-tools` is review-dated
+  (Oxlint 1.88.0, JS plugins alpha). Revise when the alpha label drops or a
+  `RuleTester` equivalent appears.
+- **`biome-typescript`** describes Biome 2.x; npm showed 2.5.15 on 2026-10-16.
+  Recheck rule names against `biome rage` output at the next import.
 - **Example gate.** `examples/package.json` pins TypeScript 7.0.2. Bump it
   with `typescript-7-transition`'s review date and re-run `make examples`.
 - **`zod4-typescript`** describes Zod 4.3.x. Recheck the `zod/mini` mapping

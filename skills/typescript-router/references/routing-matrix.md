@@ -53,6 +53,15 @@ row names a symptom or task, the skill to load first, and the usual companion.
 | Tests pass, but a deliberate mutation survives                     | `typescript-verification`              | `typescript-testing`                   |
 | Test needs `setTimeout` to settle                                  | `typescript-testing`                   | `typescript-async-and-concurrency`     |
 | A scheduler must never apply a transition early                    | `typescript-verification`              | `fast-check`                           |
+| Style toggles should become CSS state                              | `typescript-quality-tools`             | `browser-main-thread-performance`      |
+| Two linters disagree about one rule family                         | `typescript-quality-tools`             | None                                   |
+| Vendored copy of the shared lint plugin has drifted                | `typescript-quality-tools`             | None                                   |
+| Stylelint configuration exists but nothing runs it                 | `typescript-quality-tools`             | None                                   |
+| Biome rule selection, ESLint migration, or a `biome.json` override | `biome-typescript`                     | `typescript-quality-tools`             |
+| `tsc` from TypeScript 7 rejects an option TypeScript 6 accepted    | `typescript-7-transition`              | None                                   |
+| A tool fails to import `typescript` after the upgrade              | `typescript-7-transition`              | `typescript-quality-tools`             |
+| `ignoreDeprecations` left in place as the upgrade                  | `typescript-7-transition`              | None                                   |
+| New `strict` default floods a legacy directory                     | `typescript-types-and-apis`            | `typescript-7-transition`              |
 
 _Table 1: Symptoms and tasks, the skill to load, and its common pair._
 
@@ -91,3 +100,8 @@ _Table 1: Symptoms and tasks, the skill to load, and its common pair._
 - Do not load `lemmascript` for what a union or a compile-time test can
   enforce, or to "prove" timeouts, cancellation, or scheduling; those belong to
   the type system and to conformance tests.
+- Do not load `biome-typescript` to decide which linter owns a concern; load
+  it once `typescript-quality-tools` has assigned the concern to Biome.
+- Do not load `typescript-7-transition` to explain an ordinary type error on a
+  project already on 7; load it when the compiler version is itself the
+  question.

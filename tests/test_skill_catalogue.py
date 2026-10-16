@@ -37,6 +37,7 @@ from tests.catalogue import (
 # docs/skill-catalogue-status.md.
 SKILL_LINE_BUDGET = 160
 DEEP_DIVE_LINE_ENVELOPES: dict[str, int] = {
+    "biome-typescript": 400,
     "effect-v4": 260,
     "typescript-router": 200,
     "fast-check": 230,
@@ -48,6 +49,7 @@ DEEP_DIVE_LINE_ENVELOPES: dict[str, int] = {
 # skill whose decision surface decides when the deep dive is worth loading.
 # The owner must link to it, so the route into the deep dive is unambiguous.
 DEEP_DIVE_OWNERS: dict[str, str] = {
+    "biome-typescript": "typescript-quality-tools",
     "effect-v4": "typescript-errors-and-outcomes",
     "fast-check": "typescript-verification",
     "lemmascript": "typescript-verification",

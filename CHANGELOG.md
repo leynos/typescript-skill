@@ -24,6 +24,11 @@ follows [Common Changelog](https://common-changelog.org/).
 - Imported verification deep dives `fast-check` and `lemmascript`, now owned
   by `typescript-verification`
   ([ADR 0001](docs/adr/0001-verification-skill-ownership.md)).
+- `typescript-quality-tools`, assigning one owner per static concern and
+  specifying the `prefer-css-state` rule and browser preset for `df12-lints`,
+  and `typescript-7-transition`, version-pinned to TypeScript 7.0.2
+  ([ADR 0002](docs/adr/0002-typescript-7-versioned-boundary.md)).
+- Imported deep dive `biome-typescript`, owned by `typescript-quality-tools`.
 - Imported deep dives `zod4-typescript` and `effect-v4`, with manifests
   adapted to the catalogue's contract
   ([ADR 0003](docs/adr/0003-imported-skill-provenance.md)).

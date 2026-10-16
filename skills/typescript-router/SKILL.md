@@ -93,6 +93,14 @@ fourth decides where the fix belongs.
 - Choosing between ordinary tests, compile-time type tests, properties,
   stateful or race exploration, mutation testing, and proof:
   `typescript-verification`; deep dives in `fast-check` and `lemmascript`
+- Which tool should own a static concern across the compiler, Biome, Oxlint
+  and the shared `df12-lints` plugin, Stylelint, Semgrep, package checks, and
+  accessibility checks, or what static analysis must not pretend to know:
+  `typescript-quality-tools`; Biome configuration, migration, and rule
+  semantics in `biome-typescript`
+- Upgrading from TypeScript 6 to 7, removed options, side-by-side checking,
+  compiler-output comparison, or a tool that still needs the 6.0 programmatic
+  API: `typescript-7-transition`
 
 ## Testing hierarchy
 
@@ -145,6 +153,12 @@ for rendering, integration, accessibility, timing, and package consumers;
   then choose one primary adversary.
 - A proof pairs `lemmascript` with `fast-check` for the regression net beneath
   it and for the boundary code the proof trusts.
+- Turning a settled policy into a rule pairs `typescript-quality-tools` with
+  the skill that owns the policy, most often `browser-main-thread-performance`.
+- A compiler upgrade pairs `typescript-7-transition` with
+  `typescript-types-and-apis` when the new `strict` default meets brownfield
+  directories, or with `typescript-modules-and-packaging` when `module` and
+  `moduleResolution` need replacing.
 - If two language skills both seem necessary, load the one that explains the
   failure and keep the other in reserve.
 
@@ -160,7 +174,9 @@ for rendering, integration, accessibility, timing, and package consumers;
 - a boundary accepts a parsed shape without a schema or a hand-written guard,
 - a table keeps growing rows to sample one invariant,
 - a passing suite gives no evidence that its assertions detect wrong
-  behaviour.
+  behaviour,
+- a lint rule is asked to decide something only a trace can show,
+- `ignoreDeprecations` is treated as an upgrade.
 
 Read [routing-matrix.md](references/routing-matrix.md) only when the route is
 still unclear.
