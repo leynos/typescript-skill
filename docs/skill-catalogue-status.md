@@ -46,6 +46,36 @@ TypeScript 7.0.2 with Bun 1.4.3.
   `declarations-and-dual-packages.md`, `consumer-checks.md`,
   `generated-code.md`.
 
+### Runtime and architecture
+
+- `browser-main-thread-performance` — the decision sequence: state the
+  objective, eliminate work, hand presentation to CSS, shape main-thread work,
+  offload coarse CPU work, keep the vocabulary; the latency versus throughput
+  trade; the three rings of enforcement. References:
+  `objective-and-elimination.md`, `css-state-membrane.md`,
+  `main-thread-shaping.md`. Fixture: `positive/yielding-scheduler.ts`.
+- `react-and-accessible-ui` — state and effect ownership, derived state,
+  external systems, controlled APIs, transitions, the CSS membrane inside
+  components, accessible interaction, localization, component testing.
+  References: `state-and-effect-ownership.md`, `transitions-and-scheduling.md`,
+  `accessible-interaction-and-i18n.md`, `component-testing.md`.
+- `node-bun-and-processes` — lifecycle and signals, draining, exit codes,
+  streams and backpressure, child processes, worker threads, native modules,
+  Node and Bun divergences, CLI contract. References:
+  `process-lifecycle-and-signals.md`, `streams-and-child-processes.md`,
+  `node-bun-compatibility.md`, `cli-behaviour.md`.
+- `electron-and-ipc` — privilege separation and its migration, typed and
+  validated IPC, privileged commands, cancellation across processes, protocol
+  versioning, native add-ons, PTY batching, renderer scheduling, shutdown.
+  References: `privilege-separation-migration.md`, `typed-ipc-protocol.md`,
+  `native-modules-and-shutdown.md`, `renderer-scheduling.md`. Fixture:
+  `positive/typed-ipc-registry.ts`.
+- `arch-typescript-package-design` — public surface, dependency direction and
+  layering, shared protocol packages, plugin and extension protocols,
+  compatibility and stability tags. References: `public-surface.md`,
+  `dependency-direction-and-layering.md`, `plugins-and-extension-protocols.md`,
+  `compatibility.md`.
+
 ### Imported deep dives
 
 - `zod4-typescript` — Zod 4 schemas, parsing, errors, inference, the Zod 3

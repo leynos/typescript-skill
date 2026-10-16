@@ -72,6 +72,21 @@ fourth decides where the fix belongs.
   output, once a boundary has been placed: `zod4-typescript`
 - A codebase that already uses Effect: services, layers, `Schema`, typed
   errors, fibers, or the v3 to v4 renames: `effect-v4`
+- Interaction latency, dropped frames, long tasks, layout thrashing, CSS versus
+  JavaScript for presentation, yielding, or whether to offload to a Web Worker:
+  `browser-main-thread-performance`
+- Component state and effect ownership, derived state, controlled APIs,
+  transitions, accessible interaction, localization, or component tests:
+  `react-and-accessible-ui`
+- Process lifecycle, signals and shutdown, streams, child processes, worker
+  threads, native modules, CLI behaviour, or Node versus Bun differences:
+  `node-bun-and-processes`
+- Electron main, renderer, and preload separation, context isolation, typed
+  IPC, privileged commands, native add-ons, or renderer scheduling:
+  `electron-and-ipc`
+- Public surface, dependency direction, package layering, shared protocol
+  packages, plugin APIs, or compatibility promises:
+  `arch-typescript-package-design`
 
 ## Pairing rules
 
@@ -85,6 +100,16 @@ fourth decides where the fix belongs.
   `typescript-async-and-concurrency` with `typescript-errors-and-outcomes`.
 - Publishing work pairs `typescript-modules-and-packaging` with
   `typescript-types-and-apis` when declaration shape is the problem.
+- Browser responsiveness pairs `browser-main-thread-performance` with
+  `typescript-async-and-concurrency` for backpressure and the worker threshold,
+  or with `react-and-accessible-ui` when the fix is inside a component.
+- Electron work pairs `electron-and-ipc` with
+  `typescript-boundaries-and-validation` for a new privileged command, or with
+  `browser-main-thread-performance` for renderer frames.
+- Server and CLI work pairs `node-bun-and-processes` with
+  `typescript-async-and-concurrency` or `typescript-errors-and-outcomes`.
+- Library architecture pairs `arch-typescript-package-design` with
+  `typescript-modules-and-packaging`; the first decides what, the second how.
 - If two language skills both seem necessary, load the one that explains the
   failure and keep the other in reserve.
 

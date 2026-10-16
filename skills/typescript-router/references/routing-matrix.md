@@ -29,6 +29,21 @@ row names a symptom or task, the skill to load first, and the usual companion.
 | Generated code is both ignored and tracked                         | `typescript-modules-and-packaging`     | None                                   |
 | Zod 3 idioms in a Zod 4 project, or `zod/mini` versus classic      | `zod4-typescript`                      | `typescript-boundaries-and-validation` |
 | `Effect.catchAll` or `Context.Tag` fails to type-check on Effect 4 | `effect-v4`                            | None                                   |
+| Parsing a large payload freezes the page                           | `browser-main-thread-performance`      | `typescript-async-and-concurrency`     |
+| Animation stutters while script runs                               | `browser-main-thread-performance`      | None                                   |
+| A stream of updates outruns the frame budget                       | `browser-main-thread-performance`      | `typescript-async-and-concurrency`     |
+| `useEffect` sets state from values already in scope                | `react-and-accessible-ui`              | None                                   |
+| A `div` with `onClick` and no role or keyboard handler             | `react-and-accessible-ui`              | None                                   |
+| A map or terminal component leaks its instance on unmount          | `react-and-accessible-ui`              | `browser-main-thread-performance`      |
+| Process does not exit on `SIGTERM`                                 | `node-bun-and-processes`               | `typescript-async-and-concurrency`     |
+| Child process spawned with a shell string from input               | `node-bun-and-processes`               | `typescript-boundaries-and-validation` |
+| Package behaves differently under Bun and Node                     | `node-bun-and-processes`               | `typescript-modules-and-packaging`     |
+| Renderer needs a privileged operation                              | `electron-and-ipc`                     | `typescript-boundaries-and-validation` |
+| Window still runs with `nodeIntegration: true`                     | `electron-and-ipc`                     | None                                   |
+| PTY output floods the renderer                                     | `electron-and-ipc`                     | `browser-main-thread-performance`      |
+| Core package imports `electron` or `node:fs`                       | `arch-typescript-package-design`       | None                                   |
+| Plugins receive the host's store by reference                      | `arch-typescript-package-design`       | `typescript-boundaries-and-validation` |
+| Deciding what a published package should export                    | `arch-typescript-package-design`       | `typescript-modules-and-packaging`     |
 
 _Table 1: Symptoms and tasks, the skill to load, and its common pair._
 
@@ -51,3 +66,12 @@ _Table 1: Symptoms and tasks, the skill to load, and its common pair._
 - Do not load `zod4-typescript` to decide where a boundary belongs; load it
   once `typescript-boundaries-and-validation` has placed the boundary and the
   question is about Zod itself.
+- Do not load `react-and-accessible-ui` because the project uses React; load
+  it when the pressure is component ownership, accessibility, or component
+  tests. A frame-budget problem in a React application starts at
+  `browser-main-thread-performance`.
+- Do not load `electron-and-ipc` for renderer code that never crosses the
+  bridge; it is browser code and routes as such.
+- Do not load `browser-main-thread-performance` to decide whether a
+  calculation is heavy enough for a worker without a trace; the skill will send
+  you to measure first.
