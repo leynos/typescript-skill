@@ -87,6 +87,36 @@ fourth decides where the fix belongs.
 - Public surface, dependency direction, package layering, shared protocol
   packages, plugin APIs, or compatibility promises:
   `arch-typescript-package-design`
+- Named examples, tables, compile-time type tests, component tests,
+  integration tests, end-to-end runs, virtual time, or runner choice:
+  `typescript-testing`
+- Choosing between ordinary tests, compile-time type tests, properties,
+  stateful or race exploration, mutation testing, and proof:
+  `typescript-verification`; deep dives in `fast-check` and `lemmascript`
+
+## Testing hierarchy
+
+This is a decision hierarchy, not a prestige ranking. Pick the first rung whose
+evidence matches the question, and stop there.
+
+0. **The type system**: make the illegal state unrepresentable, and pin a
+   public vocabulary with a compile-time test. Route to
+   `typescript-types-and-apis`, then `typescript-testing`.
+1. **Named example**: one scenario, boundary, regression, rendered output, or
+   error contract matters. Use `typescript-testing`.
+2. **Table**: a finite truth table where each row means something, such as a
+   transition table. Use `typescript-testing`.
+3. **Lightweight property**: one relation over many cheap generated inputs.
+   Use `fast-check` directly; no selector ceremony is needed.
+4. **Model-based or scheduled property**: operation sequences, dependent
+   data, or async interleavings. Stay with `fast-check`.
+5. **Proof**: a load-bearing property that must hold for every input in a
+   supported pure subset. Go through `typescript-verification` to `lemmascript`.
+
+Mutation testing sits beside the hierarchy: load `typescript-verification` when
+the question is whether the suite would notice a defect. Leave the hierarchy
+for rendering, integration, accessibility, timing, and package consumers;
+`typescript-testing` names the specialist test for each.
 
 ## Pairing rules
 
@@ -110,6 +140,11 @@ fourth decides where the fix belongs.
   `typescript-async-and-concurrency` or `typescript-errors-and-outcomes`.
 - Library architecture pairs `arch-typescript-package-design` with
   `typescript-modules-and-packaging`; the first decides what, the second how.
+- A clear lightweight invariant goes straight to `fast-check`. Load
+  `typescript-verification` when the rung or the escalation path is unclear,
+  then choose one primary adversary.
+- A proof pairs `lemmascript` with `fast-check` for the regression net beneath
+  it and for the boundary code the proof trusts.
 - If two language skills both seem necessary, load the one that explains the
   failure and keep the other in reserve.
 
@@ -122,7 +157,10 @@ fourth decides where the fix belongs.
 - a `catch` block swallows `unknown` without classifying it,
 - a promise is created that nobody awaits, cancels, or bounds,
 - a package's `exports` map is edited without a consumer check,
-- a boundary accepts a parsed shape without a schema or a hand-written guard.
+- a boundary accepts a parsed shape without a schema or a hand-written guard,
+- a table keeps growing rows to sample one invariant,
+- a passing suite gives no evidence that its assertions detect wrong
+  behaviour.
 
 Read [routing-matrix.md](references/routing-matrix.md) only when the route is
 still unclear.

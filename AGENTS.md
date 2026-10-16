@@ -34,10 +34,10 @@ Agent Skills manifest. The manifest `name` is the discovery name.
 - Name every new skill in the router's "Route by question" list, in
   `skills/typescript-router/references/routing-matrix.md`, and in
   `docs/skill-catalogue-status.md`. The contract suite enforces all three.
-- Keep `SKILL.md` within 160 lines. Imported deep dives carry larger
-  envelopes recorded in `tests/test_skill_catalogue.py` and the catalogue
-  status. Push comparison tables and worked examples into `references/`, and
-  link every reference from the skill.
+- Keep `SKILL.md` within 160 lines. The router and the imported deep dives
+  carry larger envelopes recorded in `tests/test_skill_catalogue.py` and the
+  catalogue status. Push comparison tables and worked examples into
+  `references/`, and link every reference from the skill.
 - Keep compiler-version claims (`tsgo`, native preview, `TypeScript 7.x`)
   inside `typescript-7-transition`, the router, and the imported skills that
   pin their own floor. `tests/test_versioned_claims.py` enforces this.

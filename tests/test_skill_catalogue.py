@@ -32,10 +32,15 @@ from tests.catalogue import (
 
 # First-class skills carry judgement and stay short; comparison tables and
 # worked examples live in references. Imported deep dives are procedural and
-# carry larger envelopes, recorded here and in docs/skill-catalogue-status.md.
+# carry larger envelopes, as does the router, which must name every skill and
+# carry the testing hierarchy. Both are recorded here and in
+# docs/skill-catalogue-status.md.
 SKILL_LINE_BUDGET = 160
 DEEP_DIVE_LINE_ENVELOPES: dict[str, int] = {
     "effect-v4": 260,
+    "typescript-router": 200,
+    "fast-check": 230,
+    "lemmascript": 230,
     "zod4-typescript": 540,
 }
 
@@ -44,6 +49,8 @@ DEEP_DIVE_LINE_ENVELOPES: dict[str, int] = {
 # The owner must link to it, so the route into the deep dive is unambiguous.
 DEEP_DIVE_OWNERS: dict[str, str] = {
     "effect-v4": "typescript-errors-and-outcomes",
+    "fast-check": "typescript-verification",
+    "lemmascript": "typescript-verification",
     "zod4-typescript": "typescript-boundaries-and-validation",
 }
 

@@ -9,7 +9,8 @@ TypeScript 7.0.2 with Bun 1.4.3.
 ### Router
 
 - `typescript-router` — main entry point: the four opening questions, the
-  route list, pairing rules, and escalation. References: `routing-matrix.md`.
+  route list, the testing hierarchy, pairing rules, and escalation. Line
+  envelope: 200, because it names every skill. References: `routing-matrix.md`.
 
 ### Language spine
 
@@ -76,7 +77,32 @@ TypeScript 7.0.2 with Bun 1.4.3.
   `dependency-direction-and-layering.md`, `plugins-and-extension-protocols.md`,
   `compatibility.md`.
 
+### Assurance
+
+- `typescript-testing` — the testing hierarchy from the type system to proof,
+  compile-time type tests, unit versus integration, virtual time and
+  deterministic schedulers, component tests, end-to-end, benchmarks, runner
+  choice. References: `testing-hierarchy.md`, `compile-time-type-tests.md`,
+  `virtual-time-and-schedulers.md`, `integration-and-e2e.md`. Fixture:
+  `diagnostics/type-contract.ts`.
+- `typescript-verification` — the question-first selector between ordinary
+  tests, compile-time tests, `fast-check` properties, stateful and race
+  exploration, mutation testing, and LemmaScript proof; the layering rule; what
+  none of them establish. References: `selection-matrix.md`,
+  `mutation-testing.md`, `state-and-race-exploration.md`.
+
 ### Imported deep dives
+
+- `fast-check` — arbitraries, the filtering trap, model-based testing, the
+  scheduler for races, 4.x versus 3.x idioms, replay, CI tiering. Owner:
+  `typescript-verification`. Source: `agent-helper-scripts` `skills/fast-check`
+  (merged 2026-08-14, PR #25; copied 2026-10-16). Line envelope: 230.
+  References: `arbitraries.md`, `model-based-testing.md`.
+- `lemmascript` — `//@` annotations, the Dafny and Lean backends, the edit
+  loop, trusted boundaries, brownfield strategy. Owner:
+  `typescript-verification`. Source: `agent-helper-scripts`
+  `skills/lemmascript` (merged 2026-08-14, PR #25; copied 2026-10-16). Line
+  envelope: 230. References: `annotations.md`, `workflow.md`.
 
 - `zod4-typescript` — Zod 4 schemas, parsing, errors, inference, the Zod 3
   migration traps, `zod/mini`, codecs, and JSON Schema. Owner:
@@ -121,6 +147,9 @@ TypeScript 7.0.2 with Bun 1.4.3.
 - **`effect-v4`** describes `effect@4.0.5`. The rename tables are generated
   from upstream; regenerate from the bundle's source when a 4.x minor adds or
   removes modules. Its scripts assume Python 3 on `PATH`.
+- **`fast-check`** describes 4.x (npm showed 4.10.2 on 2026-10-16) and
+  **`lemmascript`** names 0.5.22 while npm showed 0.6.4. Recheck the
+  LemmaScript CLI flags and supported fragment at the next import.
 - **Worker abstraction versions** named in
   `typescript-async-and-concurrency/references/workers-and-pools.md` were
   checked on 2026-10-16 (Comlink 4.4.2, `workerpool` 10.0.3, Piscina 5.3.2).

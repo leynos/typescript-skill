@@ -44,6 +44,15 @@ row names a symptom or task, the skill to load first, and the usual companion.
 | Core package imports `electron` or `node:fs`                       | `arch-typescript-package-design`       | None                                   |
 | Plugins receive the host's store by reference                      | `arch-typescript-package-design`       | `typescript-boundaries-and-validation` |
 | Deciding what a published package should export                    | `arch-typescript-package-design`       | `typescript-modules-and-packaging`     |
+| One named regression or exact output                               | `typescript-testing`                   | None                                   |
+| Public type vocabulary must reject a shape                         | `typescript-testing`                   | `typescript-types-and-apis`            |
+| Case table keeps growing to sample one invariant                   | `fast-check`                           | `typescript-testing`                   |
+| Encoder and decoder must round-trip                                | `fast-check`                           | `typescript-data-and-state`            |
+| Bug depends on a sequence of operations or an interleaving         | `fast-check`                           | `typescript-verification`              |
+| Invariant must hold for every input, not sampled ones              | `typescript-verification`              | `lemmascript`                          |
+| Tests pass, but a deliberate mutation survives                     | `typescript-verification`              | `typescript-testing`                   |
+| Test needs `setTimeout` to settle                                  | `typescript-testing`                   | `typescript-async-and-concurrency`     |
+| A scheduler must never apply a transition early                    | `typescript-verification`              | `fast-check`                           |
 
 _Table 1: Symptoms and tasks, the skill to load, and its common pair._
 
@@ -75,3 +84,10 @@ _Table 1: Symptoms and tasks, the skill to load, and its common pair._
 - Do not load `browser-main-thread-performance` to decide whether a
   calculation is heavy enough for a worker without a trace; the skill will send
   you to measure first.
+- Do not route an obvious single invariant through `typescript-verification`;
+  load `fast-check` directly. The exception is an invariant of a pure function
+  where a counter-example would be costly: that goes on to `lemmascript`, as
+  the router's testing hierarchy says.
+- Do not load `lemmascript` for what a union or a compile-time test can
+  enforce, or to "prove" timeouts, cancellation, or scheduling; those belong to
+  the type system and to conformance tests.
