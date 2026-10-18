@@ -37,8 +37,9 @@ the test finds nothing.
 npm install --save-dev fast-check
 ```
 
-The current major is 4.x (latest: 4.9.0). It requires Node ≥ 12.17 and, for
-TypeScript users, TS ≥ 5.0. fast-check is runner-agnostic: it works under
+The current major is 4.x (4.10.2 when checked on 2026-10-18; run
+`npm view fast-check version` before advising). It requires Node ≥ 12.17 and,
+for TypeScript users, TS ≥ 5.0. fast-check is runner-agnostic: it works under
 Vitest, Jest, and the Node test runner unchanged. Optional ergonomic bindings
 exist as `@fast-check/vitest`, `@fast-check/jest`, and `@fast-check/ava`.
 

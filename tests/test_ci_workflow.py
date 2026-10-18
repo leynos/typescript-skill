@@ -34,7 +34,7 @@ def _workflow_steps(repo_root: Path) -> list[dict[str, Any]]:
     jobs = document["jobs"]
     assert list(jobs) == ["tests"], "the workflow has one job named tests"
     steps = jobs["tests"]["steps"]
-    assert isinstance(steps, list)
+    assert isinstance(steps, list), "the tests job declares a list of steps"
     return [step for step in steps if isinstance(step, dict)]
 
 
@@ -56,7 +56,11 @@ def _check_prerequisites(repo_root: Path) -> list[str]:
 
 def test_workflow_runs_the_check_gates_in_order(repo_root: Path) -> None:
     """The hosted job runs exactly the gates `make check` runs, in its order."""
-    assert _make_targets(_workflow_steps(repo_root)) == _check_prerequisites(repo_root)
+    targets = _make_targets(_workflow_steps(repo_root))
+    prerequisites = _check_prerequisites(repo_root)
+    assert targets == prerequisites, (
+        f"workflow runs {targets} but make check runs {prerequisites}"
+    )
 
 
 @pytest.mark.parametrize(("tool", "marker"), sorted(EXTERNAL_TOOLS.items()))

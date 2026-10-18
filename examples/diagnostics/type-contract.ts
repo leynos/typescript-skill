@@ -1,3 +1,9 @@
+/**
+ * @file Compile-time type-test fixture in the shape of a `.test-d.ts` file:
+ * `@ts-expect-error` markers prove the public vocabulary rejects a shape and
+ * `Expect<Equal<…>>` proves two types are identical. Compiled by
+ * `make examples`; never executed.
+ */
 // Linked from skills/typescript-testing/SKILL.md.
 //
 // A compile-time type test in the shape of a `.test-d.ts` file. The gate

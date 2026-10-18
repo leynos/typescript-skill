@@ -45,7 +45,7 @@ the public signature concrete.
   typed `(event: MouseEvent) => void` is not assignable where
   `(event: Event) => void` is required. Method shorthand
   (`on(event: Event): void`) is bivariant and therefore looser; prefer property
-  syntax for callbacks in public interfaces when you want the check.
+  syntax for callbacks in public interfaces when the check matters.
 - Mark variance explicitly (`in`, `out`) on type parameters of interfaces only
   when inference is slow or wrong; it is a documentation and performance aid,
   not a correctness requirement.

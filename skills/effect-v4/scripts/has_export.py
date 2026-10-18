@@ -118,7 +118,11 @@ def jsdoc_tags(lines: list[str], index: int) -> str:
 
 
 def list_exports(text: str) -> list[str]:
-    names = set(re.findall(r"^export declare (?:const|function|class) (\w+)", text, re.M))
+    """List exported names using the same declaration forms `find_member` recognizes."""
+    names = set(re.findall(r"^export declare (?:const|function|class|let|enum|abstract class) (\w+)", text, re.M))
+    names.update(re.findall(r"^export declare namespace (\w+)", text, re.M))
+    names.update(re.findall(r"^export (?:declare )?(?:interface|type) (\w+)", text, re.M))
+    names.update(re.findall(r"^export \* as (\w+)", text, re.M))
     for _, pairs in export_blocks(text):
         names.update(exported for _, exported in pairs)
     return sorted(n for n in names if re.fullmatch(r"\w+", n))

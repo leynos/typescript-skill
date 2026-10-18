@@ -82,9 +82,11 @@ def test_tsconfig_includes_both_fixture_directories() -> None:
     without_comments = re.sub(r"^\s*//.*$", "", raw, flags=re.MULTILINE)
     config = json.loads(without_comments)
 
-    assert "positive/**/*.ts" in config["include"]
-    assert "diagnostics/**/*.ts" in config["include"]
-    assert config["compilerOptions"]["noEmit"] is True
+    assert "positive/**/*.ts" in config["include"], "the gate skips positive fixtures"
+    assert "diagnostics/**/*.ts" in config["include"], (
+        "the gate skips diagnostics fixtures"
+    )
+    assert config["compilerOptions"]["noEmit"] is True, "the gate must not emit output"
 
 
 def test_examples_pin_an_exact_typescript_release() -> None:

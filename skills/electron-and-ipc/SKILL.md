@@ -13,9 +13,9 @@ them is compromised, slow, or shutting down.
 
 ## Working stance
 
-- The renderer is a web page. Treat it as untrusted even when you wrote it: a
-  single injected script or a vulnerable dependency gives an attacker whatever
-  the renderer can reach.
+- The renderer is a web page. Treat it as untrusted even when the team wrote
+  it: a single injected script or a vulnerable dependency gives an attacker
+  whatever the renderer can reach.
 - Privilege lives in the main process. The renderer asks; the main process
   decides, validates, and acts.
 - The preload script is the only bridge. It exposes a small, typed, named API

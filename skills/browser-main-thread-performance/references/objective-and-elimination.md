@@ -26,7 +26,7 @@ longer than 50 ms is a long task and blocks input for its duration. A single
 synchronous call (`JSON.parse` on a large payload, a big sort) cannot be split;
 it can only be made smaller, made rarer, or moved.
 
-## Eliminate before you schedule
+## Eliminate before scheduling
 
 Ask these in order; each one removes work rather than rearranging it.
 

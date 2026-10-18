@@ -39,15 +39,27 @@ Deferring a navigation by one frame so a dialog's exit animation and unmount
 complete first is a legitimate one-shot interoperability fix:
 
 ```tsx
+const frame = useRef<number | null>(null);
 const close = useCallback(() => {
   setOpen(false);
-  requestAnimationFrame(() => navigate(target));
+  frame.current = requestAnimationFrame(() => {
+    frame.current = null;
+    navigate(target);
+  });
 }, [navigate, target]);
+useEffect(
+  () => () => {
+    if (frame.current !== null) cancelAnimationFrame(frame.current);
+  },
+  [],
+);
 ```
 
-It is not an animation loop, it does not touch style, and it needs no cleanup
-because it is tied to a user action rather than a mount. A lint rule that bans
-every `requestAnimationFrame` in components would flag it wrongly.
+It is not an animation loop and it does not touch style, so a lint rule that
+bans every `requestAnimationFrame` in components would flag it wrongly. It
+still needs the unmount cleanup: if the component unmounts before the frame
+fires, an obsolete dialog action would otherwise redirect over whatever
+navigation caused the unmount.
 
 ## Effects and the frame
 

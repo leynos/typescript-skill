@@ -22,21 +22,24 @@ export function toErrorDto(error: unknown, depth = 0): ErrorDto {
     name: classified.name,
     code: classified.code,
     message: classified.message,
-    data: classified.data,
-    cause:
-      depth < 4 && classified.cause !== undefined
-        ? toErrorDto(classified.cause, depth + 1)
-        : undefined,
+    ...(classified.data === undefined ? {} : { data: classified.data }),
+    ...(depth < 4 && classified.cause !== undefined
+      ? { cause: toErrorDto(classified.cause, depth + 1) }
+      : {}),
   };
 }
 
 export function fromErrorDto(dto: ErrorDto): AppError {
   return new AppError(dto.code as AppErrorCode, dto.message, {
-    cause: dto.cause === undefined ? undefined : fromErrorDto(dto.cause),
-    data: dto.data,
+    ...(dto.cause === undefined ? {} : { cause: fromErrorDto(dto.cause) }),
+    ...(dto.data === undefined ? {} : { data: dto.data }),
   });
 }
 ```
+
+The optional keys are omitted rather than set to `undefined`, so the shape
+compiles under `exactOptionalPropertyTypes` and the wire form never carries an
+explicit `undefined` that a receiver might treat as a value.
 
 Bound the cause chain. Validate `ErrorDto` on receipt like any other message; a
 peer can send anything.

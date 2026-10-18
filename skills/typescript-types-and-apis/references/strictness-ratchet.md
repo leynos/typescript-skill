@@ -12,7 +12,7 @@ a reason where the fix needs a design change, and track the count.
 
 | Switch                               | Typical rejection                              | Usual fix                                                  |
 | ------------------------------------ | ---------------------------------------------- | ---------------------------------------------------------- |
-| `strict` (`noImplicitAny` first)     | Untyped parameters and callbacks               | Annotate; derive callback types from the library           |
+| `noImplicitAny`                      | Untyped parameters and callbacks               | Annotate; derive callback types from the library           |
 | `useUnknownInCatchVariables`         | `error.message` on an `any` catch variable     | Classify with a guard before reading fields                |
 | `strictNullChecks`                   | Fields read without checking for `undefined`   | Narrow; model absence explicitly                           |
 | `noImplicitOverride`                 | Subclass methods that shadow a base method     | Add `override`; delete accidental shadows                  |
@@ -22,12 +22,16 @@ a reason where the fix needs a design change, and track the count.
 | `exactOptionalPropertyTypes`         | `{ retries: undefined }` for an optional field | Omit the key, or widen the type to `number \| undefined`   |
 | `verbatimModuleSyntax`               | Type-only imports without `import type`        | Add `type`; the fix is mechanical and the linter can do it |
 | `isolatedModules`                    | Re-exported types without `export type`        | Add `type`; required for single-file transpilers           |
+| `strict`                             | Whatever the family members above left         | Enable once the directory passes them individually         |
 
 _Table 1: The order in which to enable switches, what breaks, and the fix._
 
-`exactOptionalPropertyTypes` goes late because it changes the meaning of every
-optional property in the directory. Expect it to surface genuine bugs where
-code set a field to `undefined` to "clear" it and other code checked `in`.
+`strict` goes last on purpose: it turns on `strictNullChecks` and the rest of
+the family at once, so enabling it first would defeat the one-switch-at-a-time
+migration. `exactOptionalPropertyTypes` goes late because it changes the
+meaning of every optional property in the directory. Expect it to surface
+genuine bugs where code set a field to `undefined` to "clear" it and other code
+checked `in`.
 
 ## Layout
 

@@ -3,7 +3,7 @@
 A decision hierarchy, not a prestige ranking. Each rung answers a different
 question; climb only when the question changes.
 
-| Rung | Evidence                                          | Tool                                        | Signal that you are on the wrong rung                                           |
+| Rung | Evidence                                          | Tool                                        | Signal that the rung is wrong                                                   |
 | ---- | ------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------- |
 | 0    | The compiler rejects the illegal shape            | Types; `.test-d.ts` for public vocabularies | A runtime test asserts what a type already guarantees                           |
 | 1    | One scenario behaves as specified                 | A named test                                | The name is "works" or "handles input"                                          |

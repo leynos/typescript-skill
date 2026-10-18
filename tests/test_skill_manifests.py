@@ -136,7 +136,9 @@ def test_router_keeps_its_own_invocation_policy() -> None:
     """The router stays implicitly invocable, so the catalogue is discoverable."""
     policy = _openai_policy(REPO_ROOT / "skills" / ROUTER)
 
-    assert policy is None or policy.get(IMPLICIT_INVOCATION) is not False
+    assert policy is None or policy.get(IMPLICIT_INVOCATION) is not False, (
+        f"the router must stay implicitly invocable, got {policy!r}"
+    )
 
 
 def test_frontmatter_lint_reports_an_early_failure(tmp_path: Path) -> None:
@@ -164,4 +166,6 @@ def test_manifest_validate_reports_a_failure_in_any_position(
     result = _run_make("skill-manifest-validate", *dirs)
 
     assert result.returncode != 0, result.stdout + result.stderr
-    assert "Missing required field in frontmatter: description" in result.stderr
+    assert "Missing required field in frontmatter: description" in result.stderr, (
+        result.stdout + result.stderr
+    )

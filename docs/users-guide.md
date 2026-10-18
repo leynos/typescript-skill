@@ -28,6 +28,7 @@ install from a checkout instead of copying:
 
 ```bash
 git clone https://github.com/leynos/typescript-skill.git ~/src/typescript-skill
+mkdir -p ~/.codex/skills
 ln -s ~/src/typescript-skill/skills/* ~/.codex/skills/
 ```
 
@@ -181,6 +182,6 @@ They keep their original voice and spelling; see
 Keep new material under `skills/`. Match the shape of the existing skills: YAML
 frontmatter with a `globs` hint, a working stance, a decision surface, red
 flags, pairing, and references for longer detail. Name the skill in the router,
-the routing matrix, and the catalogue status; the contract suite will tell you
-if you miss one. Record structural rationale in
+the routing matrix, and the catalogue status; the contract suite reports any
+omission. Record structural rationale in
 [the design principles](design-principles.md) or an ADR.

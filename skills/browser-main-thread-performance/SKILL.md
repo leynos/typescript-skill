@@ -19,8 +19,8 @@ sequence, not a tutorial on any one API.
   startup, or durability across process death. Each has a different fix and the
   fixes trade against each other.
 - Latency and throughput pull apart. Yielding makes the page responsive and
-  makes the whole job finish later; batching does the reverse. Choose, and say
-  which you chose.
+  makes the whole job finish later; batching does the reverse. Choose, and
+  record the choice.
 - JavaScript chooses semantic state; CSS decides how that state is presented.
   That membrane is the default, with named exceptions, not a slogan.
 - Eliminating work beats scheduling it, scheduling beats offloading it, and

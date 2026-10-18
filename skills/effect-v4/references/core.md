@@ -484,8 +484,9 @@ export const maybe = request.pipe(Effect.timeoutOption("2 seconds")) // Option o
 ```
 
 Schedule combinators: `Schedule.recurs(n)`, `spaced`, `fixed`, `exponential`,
-`fibonacci`, `cron`, `jittered`, `min([...])` (both must continue; shorter
-delay wins — was `union`), `max([...])` (was `intersect`), `while`, `tap`,
+`fibonacci`, `cron`, `jittered`, `min([...])` (continues while any schedule
+continues; shorter delay wins — was `union`), `max([...])` (continues only
+while all continue; longer delay wins — was `intersect`), `while`, `tap`,
 `setInputType`. Durations accept `"5 seconds"`, `"250 millis"`, numbers
 (milliseconds) or `Duration` values.
 

@@ -170,8 +170,9 @@ TypeScript 7.0.2 with Bun 1.4.3.
 - **`oxlint-js-plugins.md`** in `typescript-quality-tools` is review-dated
   (Oxlint 1.88.0, JS plugins alpha). Revise when the alpha label drops or a
   `RuleTester` equivalent appears.
-- **`biome-typescript`** describes Biome 2.x; npm showed 2.5.15 on 2026-10-16.
-  Recheck rule names against `biome rage` output at the next import.
+- **`biome-typescript`** pins its examples to Biome 1.9.4 and documents the
+  Biome 2.x migration differences; npm showed 2.5.15 on 2026-10-16. Recheck
+  rule names against `biome rage` output at the next import.
 - **Example gate.** `examples/package.json` pins TypeScript 7.0.2. Bump it
   with `typescript-7-transition`'s review date and re-run `make examples`.
 - **`zod4-typescript`** describes Zod 4.3.x. Recheck the `zod/mini` mapping

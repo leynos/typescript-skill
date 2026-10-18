@@ -21,19 +21,30 @@ export function semaphore(permits: number) {
   let available = permits;
   const waiters: Array<() => void> = [];
   return async function run<T>(work: () => Promise<T>): Promise<T> {
-    if (available === 0) {
+    if (available > 0) {
+      available -= 1;
+    } else {
+      // The permit is handed straight to this waiter on release, so a caller
+      // arriving in between cannot take it first.
       await new Promise<void>((resolve) => waiters.push(resolve));
     }
-    available -= 1;
     try {
       return await work();
     } finally {
-      available += 1;
-      waiters.shift()?.();
+      const next = waiters.shift();
+      if (next === undefined) {
+        available += 1;
+      } else {
+        next();
+      }
     }
   };
 }
 ```
+
+Release transfers the permit to a waiter directly rather than incrementing the
+count and waking it: between the increment and the waiter's continuation, a new
+caller could otherwise take the permit, and the limit would be exceeded by one.
 
 ## Partial failure
 

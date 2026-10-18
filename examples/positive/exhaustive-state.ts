@@ -1,3 +1,8 @@
+/**
+ * @file Positive fixture for a total discriminated state machine: every
+ * `switch` arm returns and `assertNever` turns a missing arm into a compile
+ * error. Compiled by `make examples` to evidence the data-and-state skill.
+ */
 // Linked from skills/typescript-data-and-state/SKILL.md.
 //
 // A discriminated state machine whose transitions are total: the `switch`

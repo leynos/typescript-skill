@@ -90,9 +90,9 @@ RULES: list[Rule] = [
 
     # ---- Schema ----
     r("Schema variadic Union/Tuple", r"\bSchema\.(?:Union|Tuple|TemplateLiteral)\(\s*(?!\[)[A-Za-z_]", "Schema.Union([A, B]) / Tuple([A, B]) — array argument"),
-    r("Schema.Literal many", r"\bSchema\.Literal\(\s*[^)\n]*?,", "Schema.Literals([\"a\", \"b\"])"),
+    r("Schema.Literal many", r"\bSchema\.Literal\(\s*(?:\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'|[^,\"'()\n]+?)\s*,", "Schema.Literals([\"a\", \"b\"])"),
     r("Schema.Literal(null)", r"\bSchema\.Literal\(\s*null\s*\)", "Schema.Null"),
-    r("Schema decode names", r"\bSchema\.(?:decodeUnknown|decode|encodeUnknown|encode|validate\w*)(?=\s*\()|\bSchema\.(?:decode|encode)(?:Unknown)?Either\b",
+    r("Schema decode names", r"\bSchema\.(?:decodeUnknown|decode|encodeUnknown|encode|validate\w*)(?=\s*\()(?!\s*\(\s*\{)|\bSchema\.(?:decode|encode)(?:Unknown)?Either\b",
       "decodeUnknownEffect / decodeEffect / encodeEffect / *Exit; validate* removed"),
     r("Schema.transform*", r"\bSchema\.(?:transform|transformOrFail|transformLiteral|transformLiterals|compose)\b",
       "from.pipe(Schema.decodeTo(to, SchemaTransformation.transform({ decode, encode }))) / SchemaGetter.transformEffect"),

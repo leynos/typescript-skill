@@ -6,11 +6,11 @@ sends today. Treat the generated client as a boundary.
 
 ## Three postures
 
-| Posture                 | What happens on drift                               | Cost                             | Choose when                                     |
-| ----------------------- | --------------------------------------------------- | -------------------------------- | ----------------------------------------------- |
-| Trust the types         | Runtime `undefined` far from the call               | None                             | Never for a remote you do not deploy with       |
-| Validate against schema | Parse failure at the call, named field              | A runtime validator per response | Default for remote services                     |
-| Contract test           | CI fails when the recorded or live response changes | A test suite and fixtures        | When the server is yours and deploys separately |
+| Posture                 | What happens on drift                               | Cost                             | Choose when                                             |
+| ----------------------- | --------------------------------------------------- | -------------------------------- | ------------------------------------------------------- |
+| Trust the types         | Runtime `undefined` far from the call               | None                             | Never for a remote deployed separately                  |
+| Validate against schema | Parse failure at the call, named field              | A runtime validator per response | Default for remote services                             |
+| Contract test           | CI fails when the recorded or live response changes | A test suite and fixtures        | When the team owns the server and it deploys separately |
 
 _Table 2: Postures towards generated client types and their drift behaviour._
 

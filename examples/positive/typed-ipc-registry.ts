@@ -1,3 +1,9 @@
+/**
+ * @file Positive fixture for a typed IPC channel registry without a schema
+ * library: parsers restore types on both sides of an untrusted boundary and
+ * the transport owns cancellation. Compiled by `make examples` to evidence the
+ * Electron skill.
+ */
 // Linked from skills/electron-and-ipc/SKILL.md.
 //
 // A typed channel registry with no schema library and no Electron import, so
@@ -22,10 +28,16 @@ const parseShellRun: Parser<{ readonly command: "git" | "ls"; readonly args: rea
   if (!isRecord(raw)) throw new TypeError("shell:run request must be an object");
   const { command, args } = raw;
   if (command !== "git" && command !== "ls") throw new TypeError("command not allowed");
-  if (!Array.isArray(args) || !args.every((a) => typeof a === "string")) {
-    throw new TypeError("args must be strings");
+  // `every` skips holes, so a sparse array such as `Array(1)` would pass; walk
+  // every index instead and copy into a dense array.
+  if (!Array.isArray(args)) throw new TypeError("args must be an array");
+  const dense: string[] = [];
+  for (let index = 0; index < args.length; index += 1) {
+    const value: unknown = args[index];
+    if (typeof value !== "string") throw new TypeError("args must be strings");
+    dense.push(value);
   }
-  return { command, args };
+  return { command, args: dense };
 };
 
 const parseShellResult: Parser<{ readonly code: number; readonly stdout: string }> = (raw) => {

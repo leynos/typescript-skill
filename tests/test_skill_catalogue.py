@@ -12,6 +12,7 @@ let a skill look reachable when nothing actually routes there.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import pytest
@@ -260,10 +261,14 @@ def test_catalogue_status_lists_every_skill(
 def test_catalogue_status_records_the_deep_dive_envelopes(repo_root: Path) -> None:
     """The envelope table in the test is mirrored in prose so readers see it."""
     status = read(repo_root / "docs" / "skill-catalogue-status.md")
+    items = list(bullets(status))
     unmentioned = [
         skill
         for skill, budget in DEEP_DIVE_LINE_ENVELOPES.items()
-        if f"`{skill}`" not in status or str(budget) not in status
+        if not any(
+            f"`{skill}`" in item and re.search(rf"\benvelope: {budget}\b", item)
+            for item in items
+        )
     ]
 
     assert not unmentioned, f"status doc omits envelope for: {unmentioned}"

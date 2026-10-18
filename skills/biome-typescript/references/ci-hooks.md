@@ -130,7 +130,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: biomejs/setup-biome@v2
-      - run: biome format --check .
+      - run: biome format .
 
   lint:
     runs-on: ubuntu-latest
@@ -179,7 +179,7 @@ jobs:
           version: 1.9.4
 
       - name: Check formatting
-        run: biome format --check .
+        run: biome format .
 
       - name: Run linter
         run: biome lint --reporter=github .
@@ -276,8 +276,11 @@ Apply fixes automatically before commit:
 
 ```bash
 # .husky/pre-commit
+staged=$(git diff --name-only --cached --diff-filter=ACMR)
 npx biome check --staged --write --no-errors-on-unmatched
-git add -u  # Re-stage fixed files
+# Re-stage only the files that were already staged. A partially staged file
+# still picks up its unstaged hunks; reject partial staging if that matters.
+printf '%s\n' "$staged" | xargs -r git add --
 ```
 
 **Caution:** This modifies files. Some teams prefer failing and requiring
@@ -318,9 +321,13 @@ Use `--changed` for repos with VCS configured:
 biome check --changed --since=origin/main
 ```
 
-In CI:
+In CI (`--changed` also needs `vcs.enabled` and `vcs.clientKind` in
+`biome.json`):
 
 ```yaml
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # --since needs the base branch history
       - run: biome check --changed --since=origin/${{ github.base_ref }}
 ```
 

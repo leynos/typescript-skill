@@ -73,7 +73,8 @@ fixtures in any list position and that every non-router skill ships
 | `test_makefile.py`          | `check` is the default goal, reaches every gate, and never rewrites                                                                                            |
 | `test_skill_manifests.py`   | Manifest targets reject malformed fixtures; invocation policy                                                                                                  |
 | `test_ci_workflow.py`       | The Tests workflow runs the `check` prerequisites in order, installs every external tool first, and pins each install                                          |
-| `test_effect_scripts.py`    | The Effect skill's `has_export.py` returns a whole wrapped rename-table row as one hint; every shipped row names a replacement                                 |
+| `test_effect_scripts.py`    | The Effect skill's `has_export.py` returns a whole wrapped rename-table row as one hint; every shipped row names a replacement; both scripts work end to end   |
+| `test_prose_style.py`       | Catalogue-owned skills and documents never address the reader as "you"; imported skills and the README are exempt                                              |
 
 _Table 2: Test modules and the invariants each one holds._
 

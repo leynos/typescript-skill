@@ -33,6 +33,8 @@ backpressure. Manual `.pipe()` does none of the first two.
 ```ts
 import { spawn } from "node:child_process";
 
+const maxOutputBytes = 8 * 1024 * 1024; // the budget is stated, not implied
+
 export async function run(
   command: string,
   args: readonly string[],
@@ -41,14 +43,28 @@ export async function run(
   const child = spawn(command, args, { stdio: ["ignore", "pipe", "pipe"], signal });
   const stdout: Buffer[] = [];
   const stderr: Buffer[] = [];
-  child.stdout.on("data", (chunk: Buffer) => stdout.push(chunk));
-  child.stderr.on("data", (chunk: Buffer) => stderr.push(chunk));
+  let retained = 0;
+  const collect = (into: Buffer[]) => (chunk: Buffer) => {
+    retained += chunk.byteLength;
+    if (retained > maxOutputBytes) {
+      child.kill(); // the bound is enforced here, not after the fact
+      return;
+    }
+    into.push(chunk);
+  };
+  child.stdout.on("data", collect(stdout));
+  child.stderr.on("data", collect(stderr));
   const [code, exitSignal] = await new Promise<[number | null, NodeJS.Signals | null]>(
     (resolve, reject) => {
       child.once("error", reject);
       child.once("close", (c, s) => resolve([c, s]));
     },
   );
+  if (retained > maxOutputBytes) {
+    throw new AppError("child-output-exceeded", `${command} exceeded ${maxOutputBytes} bytes`, {
+      data: { command, maxOutputBytes },
+    });
+  }
   if (code !== 0) {
     throw new AppError("child-failed", Buffer.concat(stderr).toString("utf8"), {
       data: { command, code, signal: exitSignal },

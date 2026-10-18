@@ -43,9 +43,10 @@ type system, and how much strictness the project can honestly carry.
   boundary that validated it.
 - **Generics and variance.** Reach for a type parameter when one concrete type
   flows from input to output. Mark callbacks that only read as `readonly` and
-  arrays that are never mutated as `readonly T[]`, so variance works for you.
-  Overloads suit a closed set of call shapes; a union parameter suits an open
-  one. See [generics-and-variance.md](references/generics-and-variance.md).
+  arrays that are never mutated as `readonly T[]`, so variance works in the
+  caller's favour. Overloads suit a closed set of call shapes; a union
+  parameter suits an open one. See
+  [generics-and-variance.md](references/generics-and-variance.md).
 - **`unknown` versus `any`.** `catch (error: unknown)` and `JSON.parse(): any`
   are the two places `any` leaks in. Convert at once: classify the error,
   validate the JSON.
@@ -54,7 +55,7 @@ type system, and how much strictness the project can honestly carry.
   a boundary and belongs in exactly one adapter function.
 - **Suppression.** `@ts-expect-error` over `@ts-ignore`, always with a reason
   on the same line, and only on the narrowest statement. A suppression without
-  a tracking note is debt the compiler will never remind you of. See
+  a tracking note is debt the compiler never reports again. See
   [suppression-discipline.md](references/suppression-discipline.md).
 
 ## Strictness ratchet

@@ -1,3 +1,8 @@
+/**
+ * @file Diagnostics fixture for the sharper strictness switches: each
+ * `@ts-expect-error` proves one switch rejects the code beneath it. Compiled by
+ * `make examples` under the pinned TypeScript; never executed.
+ */
 // Linked from skills/typescript-types-and-apis/SKILL.md.
 //
 // Each `@ts-expect-error` below documents a diagnostic that one of the sharper

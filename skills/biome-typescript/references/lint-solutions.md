@@ -149,9 +149,10 @@ if (value === null || value === undefined) {
   value = defaultValue;
 }
 
-// EXCEPTION: == null is a deliberate pattern for null|undefined
-// If you want this pattern, suppress with reason:
-// biome-ignore lint/suspicious/noDoubleEquals: intentional null|undefined check
+// EXCEPTION: == null is allowed by default. noDoubleEquals ships with
+// ignoreNull: true, so this needs no suppression; a biome-ignore here would
+// itself be reported as unused. Teams that want to forbid it set
+// "noDoubleEquals": { "level": "error", "options": { "ignoreNull": false } }.
 if (value == null)
 ```
 

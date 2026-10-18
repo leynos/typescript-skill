@@ -23,7 +23,7 @@ _Table 1: Suppression forms ordered from safest to most dangerous._
 
 - `@ts-expect-error` must carry a reason on the same line, and the reason
   names the invariant or the upstream issue. The marker fails when the error
-  disappears, which is the point: it tells you the suppression is stale.
+  disappears, which is the point: it reports that the suppression is stale.
 - One suppression per line, on the narrowest statement. Never at the top of
   a function or file.
 - In tests, `@ts-expect-error` is an assertion: it proves the compiler rejects

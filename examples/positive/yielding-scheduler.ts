@@ -1,3 +1,8 @@
+/**
+ * @file Positive fixture for a project-level scheduler abstraction over the
+ * Prioritized Task Scheduling API with a timer fallback. Compiled by
+ * `make examples` to evidence the browser main-thread skill.
+ */
 // Linked from skills/browser-main-thread-performance/SKILL.md.
 //
 // A project-level scheduler abstraction. Components call `scheduler.yield()`
@@ -45,13 +50,29 @@ function yieldWithTimeout(delay: number): Promise<void> {
   });
 }
 
+// Native `postTask` rejects a queued task the moment its signal aborts. The
+// fallback must do the same rather than let the timer run out first, or a
+// background task would add its 50 ms delay to every cancellation.
+function sleepUnlessAborted(delay: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      signal?.removeEventListener("abort", onAbort);
+      resolve();
+    }, delay);
+    function onAbort(): void {
+      clearTimeout(timer);
+      reject(signal?.reason);
+    }
+    signal?.addEventListener("abort", onAbort, { once: true });
+  });
+}
+
 async function postTaskWithTimeout<T>(
   task: () => T | Promise<T>,
   options?: { readonly priority?: Priority; readonly signal?: AbortSignal },
 ): Promise<T> {
   options?.signal?.throwIfAborted();
-  await yieldWithTimeout(fallbackDelay[options?.priority ?? "user-visible"]);
-  options?.signal?.throwIfAborted();
+  await sleepUnlessAborted(fallbackDelay[options?.priority ?? "user-visible"], options?.signal);
   return task();
 }
 

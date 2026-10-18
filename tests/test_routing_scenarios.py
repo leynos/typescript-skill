@@ -52,7 +52,9 @@ def scenarios(repo_root: Path) -> list[list[str]]:
 
 def test_scenarios_exist(scenarios: list[list[str]]) -> None:
     """An empty evaluation set would make every other test here vacuous."""
-    assert len(scenarios) >= len(PINNED_SCENARIOS)
+    assert len(scenarios) >= len(PINNED_SCENARIOS), (
+        f"{len(scenarios)} scenarios cannot hold {len(PINNED_SCENARIOS)} pinned ones"
+    )
 
 
 def test_scenario_rows_name_real_skills(
@@ -89,4 +91,6 @@ def test_pinned_scenarios_keep_their_route(
         else BACKTICKED.findall(matches[0][2])[0]
     )
 
-    assert (primary[0], companion) == expected
+    assert (primary[0], companion) == expected, (
+        f"{fragment!r} routes to {(primary[0], companion)}, expected {expected}"
+    )

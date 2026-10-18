@@ -7,6 +7,7 @@ external tools.
 
 from __future__ import annotations
 
+import re
 import subprocess
 from pathlib import Path
 
@@ -55,9 +56,11 @@ def test_check_never_rewrites_files(repo_root: Path) -> None:
     """`fmt` rewrites files, so the gate may check but must never rewrite."""
     plan = _plan(repo_root, "check")
 
-    assert "--in-place" not in plan
-    assert "--fix" not in plan
-    assert "ruff format tests\n" not in plan
+    assert "--in-place" not in plan, "check plans an in-place mdtablefix"
+    assert "--fix" not in plan, "check plans a markdownlint --fix"
+    assert not re.search(r"\bruff format(?! --check)\b", plan), (
+        "check plans a rewriting ruff format"
+    )
 
 
 def test_fmt_rewrites_python_tables_and_markdown(repo_root: Path) -> None:

@@ -8,14 +8,18 @@ z.toJSONSchema(schema, options?)
 
 ### Options
 
-| Option                | Type                                 | Description                                        |
-| --------------------- | ------------------------------------ | -------------------------------------------------- |
-| `name`                | `string`                             | Root schema title                                  |
-| `$refStrategy`        | `"root"` \| `"relative"` \| `"none"` | How to generate `$ref` pointers for reused schemas |
-| `effectStrategy`      | `"input"` \| `"output"` \| `"any"`   | Which side of transforms/pipes to represent        |
-| `definitions`         | `Record<string, ZodTypeAny>`         | Named schemas to emit as `$defs`                   |
-| `errorMessages`       | `boolean`                            | Embed Zod error messages as `errorMessage`         |
-| `markdownDescription` | `boolean`                            | Emit `markdownDescription` alongside `description` |
+| Option            | Type                                                                         | Description                                                              |
+| ----------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `target`          | `"draft-2020-12"` (default) \| `"draft-7"` \| `"draft-4"` \| `"openapi-3.0"` | Which dialect's `$schema` and keywords to emit                           |
+| `metadata`        | `$ZodRegistry`                                                               | Registry whose entries supply `title`, `description`, `examples`, `id`   |
+| `unrepresentable` | `"throw"` (default) \| `"any"`                                               | What to do with `z.date()`, `z.bigint()`, transforms: throw or emit `{}` |
+| `cycles`          | `"ref"` (default) \| `"throw"`                                               | Recursive schemas become `$ref`s, or conversion fails                    |
+| `reused`          | `"inline"` (default) \| `"ref"`                                              | Whether a schema used twice is inlined or hoisted into `$defs`           |
+| `io`              | `"output"` (default) \| `"input"`                                            | Which side of transforms and pipes to represent                          |
+| `override`        | `(ctx) => void`                                                              | Post-process each generated node                                         |
+
+Checked against `zod@4.6.7` on 2026-10-18. Unknown option names are ignored
+silently, so a misspelled option changes nothing and reports nothing.
 
 ### Metadata propagation
 
@@ -40,27 +44,31 @@ z.toJSONSchema(schema);
 // }
 ```
 
-### Named definitions via `definitions`
+### Named definitions via `id` metadata
 
-Provide a definitions map to emit reusable `$defs` and `$ref` pointers:
+Give a schema an `id` in the global registry and every use of it becomes a
+`$ref` into `$defs` under that name:
 
 ```ts
-const Address = z.object({ street: z.string(), city: z.string() });
-const User = z.object({ name: z.string(), address: Address });
+const Address = z.object({ street: z.string(), city: z.string() }).meta({ id: "Address" });
+const User = z.object({ name: z.string(), address: Address, home: Address });
 
-z.toJSONSchema(User, {
-  definitions: { Address },
-});
-// properties.address → { "$ref": "#/$defs/Address" }
+z.toJSONSchema(User);
+// properties.address → { "$ref": "#/$defs/Address" }, $defs.Address → the object
 ```
 
-### Effect strategy
+Without an `id`, a schema used twice is inlined; `{ reused: "ref" }` hoists it
+into `$defs` under a generated name. To emit a set of named schemas at once,
+pass a registry: `z.toJSONSchema(myRegistry)` returns
+`{ schemas: { <id>: … } }`.
 
-Controls how transforms and pipes appear in the generated schema:
+### Input or output side
 
-- `"input"` (default): uses the input side of transforms
-- `"output"`: uses the output side
-- `"any"`: uses `{}` (any) for transformed schemas
+`io` controls how transforms and pipes appear in the generated schema:
+
+- `"output"` (default): the output side; a transform is unrepresentable and
+  throws unless `unrepresentable: "any"` is set
+- `"input"`: the input side, which is what a request validator should emit
 
 ### Schema type mapping
 

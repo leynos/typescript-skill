@@ -61,7 +61,7 @@ Expected differences to explain rather than fix:
 - JavaScript-file diagnostics under `checkJs`.
 
 Anything else is either a removed option that 6.0 should already have reported,
-or a bug worth reporting with the minimal repro the diff gives you.
+or a bug worth reporting with the minimal repro the diff provides.
 
 ## Editors
 

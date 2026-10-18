@@ -32,8 +32,8 @@ export async function fetchJson(url: string, signal: AbortSignal): Promise<unkno
 
 Combine a caller's signal with a deadline using
 `AbortSignal.any([signal, AbortSignal.timeout(ms)])`. The rejection's `name`
-then tells you which one fired: `AbortError` for the caller, `TimeoutError` for
-the deadline.
+then identifies which one fired: `AbortError` for the caller, `TimeoutError`
+for the deadline.
 
 ## Timeouts that clean up
 

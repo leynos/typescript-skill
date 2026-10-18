@@ -13,7 +13,7 @@ assistive technology, or how a component is tested without testing React.
 
 ## Working stance
 
-- Derive before you store. State that can be computed from other state is a
+- Derive before storing. State that can be computed from other state is a
   bug source, not a cache. Store the minimum and compute the rest during
   render, memoizing only when a measurement says so.
 - Effects synchronize with external systems: a map library, a WebSocket, a

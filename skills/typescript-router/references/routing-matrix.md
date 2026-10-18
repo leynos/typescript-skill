@@ -91,8 +91,8 @@ _Table 1: Symptoms and tasks, the skill to load, and its common pair._
 - Do not load `electron-and-ipc` for renderer code that never crosses the
   bridge; it is browser code and routes as such.
 - Do not load `browser-main-thread-performance` to decide whether a
-  calculation is heavy enough for a worker without a trace; the skill will send
-  you to measure first.
+  calculation is heavy enough for a worker without a trace; the skill sends the
+  reader to measure first.
 - Do not route an obvious single invariant through `typescript-verification`;
   load `fast-check` directly. The exception is an invariant of a pure function
   where a counter-example would be costly: that goes on to `lemmascript`, as

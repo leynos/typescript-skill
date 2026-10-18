@@ -36,9 +36,14 @@ _Table 2: Module settings by project kind._
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./schema": {
       "types": "./dist/schema.d.ts",
@@ -96,5 +101,7 @@ conditions when told to (`--conditions development`, `resolve.conditions`).
   does not list. Add it or document that it is private.
 - `Cannot find module` with a `.js` specifier in `.ts` source: that is
   correct under `nodenext`; the compiler maps `.js` to `.ts`.
-- Default import of a CJS module gives `{ default: … }`: `esModuleInterop`
-  is now always on, so this is usually a declaration problem; run `attw`.
+- Default import of a CJS module gives `{ default: … }`: with
+  `esModuleInterop` on, this is usually a declaration problem; run `attw`.
+  Whether the switch can still be turned off depends on the compiler release;
+  `typescript-7-transition` names the release that removed the off switch.

@@ -34,25 +34,31 @@ export class VirtualClock implements Clock {
       this.#sleepers.push({ at: this.#now + ms, wake });
     });
 
-  advance(ms: number): void {
+  async advance(ms: number): Promise<void> {
     const target = this.#now + ms;
-    for (const sleeper of [...this.#sleepers].sort((a, b) => a.at - b.at)) {
-      if (sleeper.at <= target) {
-        this.#now = sleeper.at;
-        this.#sleepers.splice(this.#sleepers.indexOf(sleeper), 1);
-        sleeper.wake();
-      }
+    for (;;) {
+      const due = this.#sleepers
+        .filter((sleeper) => sleeper.at <= target)
+        .sort((a, b) => a.at - b.at)[0];
+      if (due === undefined) break;
+      this.#now = due.at;
+      this.#sleepers.splice(this.#sleepers.indexOf(due), 1);
+      due.wake();
+      // Let the woken continuation run while `now` equals its wake time, and
+      // pick the next sleeper afresh: the continuation may have added one.
+      await Promise.resolve();
     }
     this.#now = target;
   }
 }
 ```
 
-Wake sleepers in time order, setting `now` to each wake time before waking, so
-code that reads the clock inside a woken continuation sees the scheduled time
-rather than the target. Microtasks must drain between wakes for continuations
-to run; a `await Promise.resolve()` after each wake, or a `drain()` helper that
-loops until no sleeper is due, keeps the order honest.
+Wake sleepers in time order, setting `now` to each wake time before waking and
+yielding a microtask after each wake, so code that reads the clock inside a
+woken continuation sees the scheduled time rather than the target. Re-selecting
+the next due sleeper on every iteration also catches sleepers that a woken
+continuation registers inside the window. A synchronous `advance` that wakes
+everything in one loop cannot keep either promise.
 
 ## Testing a scheduler
 
@@ -64,11 +70,11 @@ test("applies a transition only once the clock reaches it", async () => {
   const worker = new Worker({ clock, ids: seededIds(1701), journal });
   worker.schedule({ at: 250, event: { type: "opened", socketId: "s1" } });
 
-  clock.advance(249);
+  await clock.advance(249);
   await worker.drain();
   expect(journal.entries).toHaveLength(0);
 
-  clock.advance(1);
+  await clock.advance(1);
   await worker.drain();
   expect(journal.entries).toEqual([
     {

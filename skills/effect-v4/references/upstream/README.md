@@ -28,3 +28,12 @@ observed behaviour win. Found while building this skill:
   (`Effect.provide(L), Effect.provide(L, { local: true })`) builds the layer
   **once**, not twice — the inner provide reuses the outer local instance. Put
   `local` on the inner provide to isolate it. See `../core.md` §3.
+- `examples/01_effect/03_services/20_layer-composition.ts`: the query wraps the
+  bound parameter in quotes (`WHERE id = '${id}'`), which turns the placeholder
+  into a string literal. Write `WHERE id = ${id}`; see `../platform.md` (SQL).
+- `migration/schema.md` (Union extends Struct): the v3 example adds
+  `c: Schema.Boolean` while the v4 example adds `c: Schema.Number`. The type
+  change is a documentation slip, not a migration rule.
+- `migration/schema.md` (Arbitrary): the link to `packages/effect/ARBITRARY.md`
+  targets a file that is not part of this bundle. The 4.0.5 module is
+  `effect/Arbitrary`; `../schema.md` covers the catalogue's guidance.

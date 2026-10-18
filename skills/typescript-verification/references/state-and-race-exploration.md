@@ -21,6 +21,9 @@ class ScheduleCommand implements fc.Command<Model, Worker> {
   run(model: Model, real: Worker): void {
     model.pending.push({ at: this.at, event: this.event });
     real.schedule({ at: this.at, event: this.event });
+    real.drainSync();
+    // Scheduling alone must apply nothing, even with no advance to follow.
+    expect(real.journal.length).toBe(model.applied);
   }
   toString(): string {
     return `schedule(${this.at}, ${this.event.type})`;

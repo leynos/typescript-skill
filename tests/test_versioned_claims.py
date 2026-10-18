@@ -23,7 +23,7 @@ ALLOWED = frozenset({VERSIONED_SKILL, ROUTER, "effect-v4", "biome-typescript"})
 
 VERSION_CLAIM = re.compile(
     r"\btsgo\b|native-preview|@typescript/typescript6|\btsc6\b"
-    r"|TypeScript [5-7]\.\d|typescript@[5-7]"
+    r"|\b(?:TypeScript|TS) [5-7](?:\.\d+)?\b|typescript@[5-7]"
 )
 
 
