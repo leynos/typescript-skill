@@ -72,6 +72,7 @@ fixtures in any list position and that every non-router skill ships
 | `test_examples.py`          | Fixtures declare and are linked from their skill; diagnostics fixtures expect an error; the gate reaches both directories; TypeScript is pinned exactly        |
 | `test_makefile.py`          | `check` is the default goal, reaches every gate, and never rewrites                                                                                            |
 | `test_skill_manifests.py`   | Manifest targets reject malformed fixtures; invocation policy                                                                                                  |
+| `test_ci_workflow.py`       | The Tests workflow runs the `check` prerequisites in order, installs every external tool first, and pins each install                                          |
 
 _Table 2: Test modules and the invariants each one holds._
 
@@ -91,6 +92,18 @@ A diagnostics fixture passes when every `@ts-expect-error` has an error under
 it; an unused marker is itself an error, so the fixture proves the diagnostic
 fires. Bump the TypeScript pin deliberately: `examples/package.json`,
 `bun.lock`, and `typescript-7-transition`'s review date move together.
+
+## Continuous integration
+
+Two workflows run on pull requests and on pushes to `main`. `Markdown lint`
+runs the markdownlint action on its own so a prose failure is visible at a
+glance. `Tests` installs `uv`, Bun, `mdtablefix`, `markdownlint-cli2`, and
+`nixie`, then runs `make check-fmt`, `make lint`, `make typecheck`,
+`make examples`, and `make test`: the same gates, in the same order, as a local
+`make check`. `tests/test_ci_workflow.py` reads the workflow and the Makefile
+and fails when the step list stops matching the `check` prerequisites or an
+install step loses its version pin. Add a tool to the Makefile and to the
+workflow together.
 
 ## Adding or importing a skill
 

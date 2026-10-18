@@ -36,3 +36,6 @@ follows [Common Changelog](https://common-changelog.org/).
   test pinning the six design scenarios.
 - Architecture decision records for verification ownership, the TypeScript 7
   versioned boundary, and imported-skill provenance.
+- GitHub Actions workflows: `Markdown lint`, and `Tests`, which installs every
+  external tool the Makefile calls and runs the same gates as `make check`, with
+  `tests/test_ci_workflow.py` holding the two in agreement.
