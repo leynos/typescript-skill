@@ -30,7 +30,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   Result.
 - `Either.filterOrLeft` -> `Result.filterOrFail`: Left is now Failure, so the
   predicate combinator is filterOrFail.
-- `Either.flatMap`: TODO: needs guidance
+- `Either.flatMap` -> `Result.flatMap`: Either became Result; the combinator
+  keeps its name and sequences on the Success channel.
 - `Either.flip` -> `Result.flip`: The channel-swapping combinator moved to
   Result.
 - `Either.fromNullable` -> `Result.fromNullishOr`: Renamed with v4 nullish-or

@@ -7,7 +7,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   EmbeddingModel interface for implementations and the Context.Service value as
   the service key; it is no longer a class. Prefer EmbeddingModel.make to
   construct the branded implementation.
-- `EmbeddingModel.Result`: TODO: needs guidance
+- `EmbeddingModel.Result` -> `EmbeddingModel.EmbedResponse`: The per-input
+  result was renamed; EmbedManyResponse carries a batch.
 - `EmbeddingModel.Service` -> `EmbeddingModel.EmbeddingModel`: Service was
   renamed to EmbeddingModel. Implementations require [EmbeddingModel.TypeId]:
   EmbeddingModel.TypeId; EmbeddingModel.make supplies the brand.

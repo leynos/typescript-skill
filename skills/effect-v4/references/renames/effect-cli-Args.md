@@ -67,7 +67,7 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   Arguments now use the shared Param representation and an explicit kind
   discriminator.
 - `Args.map` -> `Argument.map`: Use the moved combinator.
-- `Args.mapEffect`: TODO: needs guidance
+- `Args.mapEffect` -> `Argument.mapEffect`: Use the moved combinator.
 - `Args.none` -> `omit the config entry`: V4 Argument.Never is an
   always-failing sentinel, not v3's empty successful argument set.
 - `Args.optional` -> `Argument.optional`: Use the moved combinator; it still

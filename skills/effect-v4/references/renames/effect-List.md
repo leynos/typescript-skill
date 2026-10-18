@@ -32,7 +32,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   preserves ordering but returns arrays rather than persistent linked lists.
 - `List.filterMap` -> `Array.filterMap`: List was removed; use Array.filterMap
   and change the callback from Option to Result.
-- `List.flatMap`: TODO: needs guidance
+- `List.flatMap` -> `Array.flatMap`: List was removed; use Array.flatMap, which
+  returns an array rather than a persistent linked list.
 - `List.fromIterable` -> `Array.fromIterable`: List was removed; use
   Array.fromIterable. It preserves ordering but returns arrays rather than
   persistent linked lists.

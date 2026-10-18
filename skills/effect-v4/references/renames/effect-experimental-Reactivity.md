@@ -13,4 +13,5 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   Reactivity.TypeId in a custom implementation.
 - `Reactivity.make` -> `effect/reactivity/Reactivity#make`: Import make from
   the v4 unstable Reactivity module.
-- `Reactivity.query`: TODO: needs guidance
+- `Reactivity.query` -> `effect/reactivity/Reactivity#query`: Moved with the
+  module; the operation keeps its name.

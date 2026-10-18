@@ -22,7 +22,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   true.
 - `ParseResult.Missing` -> `SchemaIssue.MissingKey`: Missing-key failures use
   the v4 SchemaIssue class.
-- `ParseResult.ParseError`: TODO: needs guidance
+- `ParseResult.ParseError` -> `Schema.SchemaError`: The parse error moved onto
+  Schema; use Schema.isSchemaError for runtime narrowing.
 - `ParseResult.ParseErrorTypeId` -> `none`: The public symbol was removed; use
   Schema.isSchemaError for runtime narrowing.
 - `ParseResult.ParseIssue` -> `SchemaIssue.Issue`: The structured parse issue
@@ -45,7 +46,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   SchemaIssue class.
 - `ParseResult.Unexpected` -> `SchemaIssue.UnexpectedKey`: Unexpected object
   keys use the v4 SchemaIssue class.
-- `ParseResult.decode`: TODO: needs guidance
+- `ParseResult.decode` -> `Schema.decodeEffect`: Parsing helpers moved onto
+  Schema; the effectful decoder fails with SchemaError.
 - `ParseResult.decodeEither` -> `Schema.decodeExit`: Either parsing was
   replaced by Exit parsing.
 - `ParseResult.decodePromise` -> `Schema.decodePromise`: Parsing helpers moved
@@ -61,7 +63,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 - `ParseResult.eitherOrUndefined` -> `none`: This ParseResult internal
   optimization was removed; use Effect, Exit, Option, or Result combinators
   directly.
-- `ParseResult.encode`: TODO: needs guidance
+- `ParseResult.encode` -> `Schema.encodeEffect`: Encoding helpers moved onto
+  Schema; the effectful encoder fails with SchemaError.
 - `ParseResult.encodeEither` -> `Schema.encodeExit`: Either encoding was
   replaced by Exit encoding.
 - `ParseResult.encodeSync` -> `Schema.encodeSync`: Encoding helpers moved onto

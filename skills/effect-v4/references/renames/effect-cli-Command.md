@@ -3,7 +3,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 -->
 # `@effect/cli/Command` v3 → v4
 
-- `Command.Command.Config`: TODO: needs guidance
+- `Command.Command.Config` -> `Command.Command.Config`: Still exported from
+  effect/cli/Command; import Command from "effect/cli".
 - `Command.Command.Context` -> `Command.CommandContext`: Renamed to
   CommandContext.
 - `Command.Command.ParseConfig` -> `Command.Command.Config.Infer`: Use the v4

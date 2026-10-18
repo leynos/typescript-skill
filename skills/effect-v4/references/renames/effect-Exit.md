@@ -32,7 +32,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   Exit.isSuccess(self) && predicate(self.value). If callers rely on the
   refinement overload, retain an explicitly typed wrapper returning self is
   Exit.Exit\<B\>.
-- `Exit.flatMap`: TODO: needs guidance
+- `Exit.flatMap` -> `Effect.flatMap`: Exit values are Effects in v4; sequence
+  them with Effect.flatMap, which returns an Effect rather than Exit data.
 - `Exit.flatMapEffect` -> `Effect.matchCauseEffectEager`: Use
   Effect.matchCauseEffectEager(self, { onFailure: cause =\>
   Effect.succeed(Exit.failCause(cause)), onSuccess: f }). The explicit failure
