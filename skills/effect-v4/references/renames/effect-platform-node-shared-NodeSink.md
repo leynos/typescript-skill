@@ -8,6 +8,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 - `NodeSink.stdin` ->
   `NodeSink.fromWritable({ evaluate: () => process.stdin, onError: ... })`:
   There is no Stdio sink because stdin is a readable stream in v4; use a manual
-  adapter only if writing to process.stdin was intentional.
+  adapter only if writing to process.stdin was intentional, and only when fd 0
+  is a TTY or pipe (a Duplex socket). When fd 0 is a file, process.stdin is a
+  read-only Readable and the adapter cannot write.
 - `NodeSink.stdout` -> `stdio.stdout() from Stdio.Stdio`: Standard output moved
   to effect/Stdio; provide NodeStdio.layer or NodeServices.layer.

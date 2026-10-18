@@ -322,8 +322,10 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 - `SchemaAST.isNumberKeyword` -> `SchemaAST.isNumber`: The v4 SchemaAST
   redesign renamed this primitive, collection, or guard while preserving its
   role.
-- `SchemaAST.isParameter` -> `SchemaAST.isString`: The Parameter union was
-  removed; inspect the v4 key AST variants directly.
+- `SchemaAST.isParameter` -> `none`: The Parameter union (StringKeyword,
+  SymbolKeyword, TemplateLiteral, Refinement) was removed and no single v4
+  guard replaces it; test the key AST variants directly with
+  SchemaAST.isString, SchemaAST.isSymbol, and SchemaAST.isTemplateLiteral.
 - `SchemaAST.isRefinement` -> `SchemaAST.Check`: Refinement AST nodes became
   checks attached to Base.checks.
 - `SchemaAST.isStringKeyword` -> `SchemaAST.isString`: The v4 SchemaAST

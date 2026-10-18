@@ -45,7 +45,9 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   successSchema property.
 - `Workflow.fromTaggedRequest` -> `none`: Removed. Expand to
   Workflow.make(schema.\_tag, { payload: schema, success: schema.success,
-  error: schema.failure, idempotencyKey: PrimaryKey.value }).
+  error: schema.failure, idempotencyKey: PrimaryKey.value,
+  suspendedRetrySchedule: options?.suspendedRetrySchedule }) so the v3
+  options.suspendedRetrySchedule argument keeps its retry timing.
 - `Workflow.make` -> `effect/workflow/Workflow#make`: The signature changed
   from make({ name, … }) to make(tag, { … }); definitions expose \_tag and are
   class-compatible constructors.
