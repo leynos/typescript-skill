@@ -6,6 +6,12 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 
 Grep these files for a v3 symbol, e.g. `grep -rn 'Effect.catchAll' renames/`.
 
+Rows the generator left as `TODO: needs guidance` were resolved by hand on
+2026-10-18 against effect 4.0.5, @effect/platform-node 4.0.5,
+@effect/sql-sqlite-wasm 4.0.5, and fast-check 4.10.2, so every row has the
+`` `v3` -> `v4`: reason `` shape that `has_export.py` reads. A regeneration
+must re-apply or re-check those rows.
+
 | v3 module                                                   | file                                                          | changed entries |
 | ----------------------------------------------------------- | ------------------------------------------------------------- | --------------: |
 | `@effect/ai-anthropic/AnthropicClient`                      | `effect-ai-anthropic-AnthropicClient.md`                      | 16              |

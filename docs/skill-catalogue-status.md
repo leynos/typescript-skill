@@ -179,7 +179,10 @@ TypeScript 7.0.2 with Bun 1.4.3.
   2026-10-16; the skill's examples still apply but the "latest" line is stale).
 - **`effect-v4`** describes `effect@4.0.5`. The rename tables are generated
   from upstream; regenerate from the bundle's source when a 4.x minor adds or
-  removes modules. Its scripts assume Python 3 on `PATH`.
+  removes modules. The 204 rows the generator left as `TODO: needs guidance`
+  were resolved by hand on 2026-10-18 against the installed packages (see the
+  note in `references/renames/README.md`); a regeneration must re-apply or
+  re-check them. Its scripts assume Python 3 on `PATH`.
 - **`fast-check`** describes 4.x (npm showed 4.10.2 on 2026-10-16) and
   **`lemmascript`** names 0.5.22 while npm showed 0.6.4. Recheck the
   LemmaScript CLI flags and supported fragment at the next import.
