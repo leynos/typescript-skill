@@ -406,8 +406,9 @@ const zodSchema = z.fromJSONSchema({
 ```
 
 `z.toJSONSchema()` pulls metadata from `z.globalRegistry` automatically. For
-full options (including `$refStrategy`, `effectStrategy`, named definitions),
-see `references/json-schema-options.md`.
+full options (`target`, `reused`, `io`, `unrepresentable`, `cycles`,
+`override`, and named definitions through registry `id` metadata), see
+`references/json-schema-options.md`.
 
 `z.fromJSONSchema()` supports JSON Schema draft-2020-12, draft-7, draft-4, and
 OpenAPI 3.0. Consider it experimental — no guarantee of round-trip soundness

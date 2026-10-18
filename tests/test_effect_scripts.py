@@ -10,6 +10,7 @@ item being returned.
 from __future__ import annotations
 
 import importlib.util
+import re
 import subprocess
 import sys
 from collections.abc import Callable
@@ -123,7 +124,10 @@ def test_pattern_scanner_reports_v3_calls_and_spares_v4_forms(
         'const a = Schema.Literal("a", "b");\n'  # v3: variadic literals
         'const b = Schema.Literal("a,b");\n'  # one literal containing a comma
         "const c = Schema.decode({ decode, encode });\n"  # v4 operation form
-        "const d = Schema.decodeUnknown(schema);\n",  # v3 decoder
+        "const d = Schema.decodeUnknown(schema);\n"  # v3 decoder
+        'const e = Schema.Literal("a\\"b", "c");\n'  # escaped quote, two args
+        "const f = Schema.Literal('a\\'b', 'c');\n"  # same with single quotes
+        'const g = Schema.Literal("a\\"b");\n',  # escaped quote, one arg
         encoding="utf-8",
     )
     result = _run(
@@ -131,12 +135,8 @@ def test_pattern_scanner_reports_v3_calls_and_spares_v4_forms(
     )
 
     assert result.returncode == 1, result.stdout + result.stderr
-    assert "sample.ts:1:" in result.stdout, result.stdout
-    assert "sample.ts:4:" in result.stdout, result.stdout
-    assert "sample.ts:2:" not in result.stdout, (
-        f"comma inside a literal: {result.stdout}"
-    )
-    assert "sample.ts:3:" not in result.stdout, f"v4 operation form: {result.stdout}"
+    reported = {int(line) for line in re.findall(r"sample\.ts:(\d+):", result.stdout)}
+    assert reported == {1, 4, 5, 6}, f"reported lines {reported}: {result.stdout}"
 
 
 def test_export_check_lists_types_and_reports_members(

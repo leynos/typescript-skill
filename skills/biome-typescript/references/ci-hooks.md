@@ -272,16 +272,20 @@ npx lint-staged
 
 ### Auto-Fixing on Commit
 
-Apply fixes automatically before commit:
+Apply fixes automatically before commit by letting lint-staged run the
+`--write` commands from the configuration above:
 
 ```bash
 # .husky/pre-commit
-staged=$(git diff --name-only --cached --diff-filter=ACMR)
-npx biome check --staged --write --no-errors-on-unmatched
-# Re-stage only the files that were already staged. A partially staged file
-# still picks up its unstaged hunks; reject partial staging if that matters.
-printf '%s\n' "$staged" | xargs -r git add --
+npx lint-staged
 ```
+
+lint-staged stashes unstaged changes, runs the commands on the staged copies,
+re-stages exactly those paths, and restores the unstaged work, so a partially
+staged file never has its unstaged hunks committed and paths with spaces or
+quotes are handled for you. Do not add a manual `git add` after it. A
+hand-rolled `biome check --staged --write` followed by `git add -u` has neither
+protection.
 
 **Caution:** This modifies files. Some teams prefer failing and requiring
 manual fixes.
