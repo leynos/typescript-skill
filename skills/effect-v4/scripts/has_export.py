@@ -124,15 +124,32 @@ def list_exports(text: str) -> list[str]:
     return sorted(n for n in names if re.fullmatch(r"\w+", n))
 
 
+def rename_entries(text: str) -> list[str]:
+    """Return each `- ` list item of a rename table as one whitespace-normalized line.
+
+    The tables are wrapped at 80 columns, so an item's replacement and guidance
+    may continue on indented lines; those belong to the item above them.
+    """
+    entries: list[str] = []
+    for line in text.splitlines():
+        if line.startswith("- "):
+            entries.append(line[2:].strip())
+        elif entries and line.startswith("  ") and line.strip():
+            entries[-1] = f"{entries[-1]} {line.strip()}"
+        else:
+            entries.append("")  # a blank or unrelated line ends the item
+    return [entry for entry in entries if entry]
+
+
 def rename_hints(query: str) -> list[str]:
     if not RENAMES.is_dir():
         return []
-    needle = f"- `{query}` ->"
+    needle = f"`{query}` ->"
     hits = []
     for path in sorted(RENAMES.glob("*.md")):
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if line.startswith(needle):
-                hits.append(f"{path.name}: {line[2:]}")
+        for entry in rename_entries(path.read_text(encoding="utf-8")):
+            if entry.startswith(needle):
+                hits.append(f"{path.name}: {entry}")
     return hits
 
 
