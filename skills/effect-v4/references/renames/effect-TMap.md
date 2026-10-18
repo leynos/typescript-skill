@@ -52,7 +52,9 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   keep them atomic.
 - `TMap.removeAll` -> `TxHashMap.removeMany`: The bulk removal operation was
   renamed.
-- `TMap.set`: TODO: needs guidance
+- `TMap.set` -> `TxHashMap.set`: Import TxHashMap from "effect/TxHashMap"; the
+  operation keeps its name. V4 Tx operations return ordinary Effects; compose
+  multiple operations under one outer Effect.tx to keep them atomic.
 - `TMap.setIfAbsent` -> `Effect.tx + TxHashMap.get/TxHashMap.set`: No direct
   helper remains; check and conditionally set under one outer transaction.
 - `TMap.size` -> `TxHashMap.size`: Import TxHashMap from "effect/TxHashMap";

@@ -20,7 +20,9 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   effects.
 - `SortedSet.filter` -> `HashSet.filter`: Direct persistent filtering on the
   replacement set; traversal is unordered until explicitly sorted.
-- `SortedSet.flatMap`: TODO: needs guidance
+- `SortedSet.flatMap` -> `HashSet.fromIterable + Array.flatMap`: HashSet has no
+  flatMap; spread the set through Array.flatMap and rebuild with
+  HashSet.fromIterable, sorting only when traversing.
 - `SortedSet.fromIterable` -> `HashSet.fromIterable`: Use HashSet.fromIterable
   and retain the element Order separately.
 - `SortedSet.getEquivalence` -> `Equal.asEquivalence`: HashSet implements

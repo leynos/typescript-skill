@@ -44,7 +44,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 - `OpenApiJsonSchema.String` -> `effect/JsonSchema#JsonSchema`: The narrow
   string interface was consolidated into the open, dialect-neutral JSON Schema
   object model.
-- `OpenApiJsonSchema.Unknown`: TODO: needs guidance
+- `OpenApiJsonSchema.Unknown` -> `effect/JsonSchema#JsonSchema`: The narrow
+  node interfaces were consolidated into the general object model.
 - `OpenApiJsonSchema.Void` -> `effect/JsonSchema#JsonSchema`: The special
   void-schema interface was consolidated into the open JSON Schema object model.
 - `OpenApiJsonSchema.make` ->

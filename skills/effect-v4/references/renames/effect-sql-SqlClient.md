@@ -6,7 +6,9 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 - `SqlClient.SafeIntegers` -> `effect/sql/SqlClient#SafeIntegers`: Moved and
   changed from a Reference subclass to a Context.Reference value; provide it as
   a service.
-- `SqlClient.SqlClient.MakeOptions`: TODO: needs guidance
+- `SqlClient.SqlClient.MakeOptions` ->
+  `effect/sql/SqlClient#SqlClient.MakeOptions`: Moved with the module;
+  reactiveMailbox was renamed reactiveQueue and transactionService was added.
 - `SqlClient.TransactionConnection` ->
   `effect/sql/SqlClient#TransactionConnection`: Now a factory keyed by client
   id, not a singleton tag. Prefer the client's transactionService; the payload

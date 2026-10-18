@@ -12,7 +12,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 - `Secret.fromIterable` -> `Redacted.make(Array.from(iterable).join(""))`:
   Secret was removed; join the character iterable and wrap the resulting string
   in Redacted.
-- `Secret.fromString`: TODO: needs guidance
+- `Secret.fromString` -> `Redacted.make`: Secret was removed; Redacted.make
+  wraps the string directly.
 - `Secret.isSecret` -> `Redacted.isRedacted`: Secret was removed in favor of
   Redacted.
 - `Secret.make` ->

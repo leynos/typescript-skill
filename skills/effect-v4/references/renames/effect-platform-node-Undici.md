@@ -32,7 +32,9 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 - `Undici.DiagnosticsChannel.RequestErrorMessage` ->
   `undici.DiagnosticsChannel.RequestErrorMessage`: Import the same type-only
   namespace member; its error field is the built-in Error type in Undici 8.
-- `Undici.DiagnosticsChannel.Response`: TODO: needs guidance
+- `Undici.DiagnosticsChannel.Response` -> `Undici.DiagnosticsChannel.Response`:
+  Still available; @effect/platform-node/Undici re-exports undici 8, and
+  importing from undici directly is equivalent.
 - `Undici.Dispatcher` -> `undici.Dispatcher`: Import the upstream Dispatcher
   directly; custom dispatchers must adopt Undici 8's controller-based v2
   handler API.
@@ -60,7 +62,9 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   constructor/type directly to preserve the installed package identity.
 - `Undici.MessageEventInit` -> `undici.MessageEventInit`: Import the upstream
   type directly; message ports and source use MessagePort instances in Undici 8.
-- `Undici.MockAgent`: TODO: needs guidance
+- `Undici.MockAgent` -> `Undici.MockAgent`: Still available;
+  @effect/platform-node/Undici re-exports undici 8, and importing from undici
+  directly is equivalent.
 - `Undici.Pool` -> `undici.Pool`: Import the upstream Pool directly and apply
   interceptors after construction with pool.compose(…).
 - `Undici.Pool.Options` -> `undici.Pool.Options`: Import the same Pool
