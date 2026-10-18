@@ -73,7 +73,12 @@ export async function invoke<C extends CommandName>(
   signal?: AbortSignal,
 ): Promise<Response<C>> {
   signal?.throwIfAborted();
-  const raw: unknown = await window.app.invoke(channel, request);
+  const id = nextRequestId();
+  const raw: unknown = await cancellable(
+    signal,
+    id,
+    window.app.invoke(channel, { id, ...request }),
+  );
   const parsed = commands[channel].response.safeParse(raw);
   if (!parsed.success) {
     throw new ProtocolError("invalid-response", channel, parsed.error.issues);
@@ -88,17 +93,37 @@ It is cheap relative to the IPC itself.
 
 ## Cancellation
 
-An `AbortSignal` does not cross IPC. Carry a request identifier and send a
-cancel message:
+An `AbortSignal` does not cross IPC. Carry a request identifier, send a cancel
+message when the signal aborts, and reject at once rather than waiting for main
+to finish the privileged operation. Checking `signal.aborted` only before and
+after the `await` is not cancellation: the operation runs to completion and the
+caller merely learns late.
 
 ```ts
-const id = nextRequestId();
-signal?.addEventListener("abort", () => window.app.cancel(id), { once: true });
-const raw = await window.app.invoke(channel, { id, ...request });
+function cancellable<T>(
+  signal: AbortSignal | undefined,
+  id: string,
+  result: Promise<T>,
+): Promise<T> {
+  if (!signal) return result;
+  return new Promise<T>((resolve, reject) => {
+    const onAbort = () => {
+      window.app.cancel(id);
+      reject(signal.reason);
+    };
+    signal.addEventListener("abort", onAbort, { once: true });
+    result.then(resolve, reject).finally(() => {
+      signal.removeEventListener("abort", onAbort);
+    });
+  });
+}
 ```
 
 Main keeps a `Map<id, AbortController>` and aborts the controller on cancel.
-Late results for cancelled identifiers are dropped on both sides.
+Late results for cancelled identifiers are dropped on both sides. The
+[typed-ipc-registry.ts](../../../examples/positive/typed-ipc-registry.ts)
+example keeps the same contract one level down: its `Transport` receives the
+signal, and an Electron-backed transport implements it this way.
 
 ## Events from main
 

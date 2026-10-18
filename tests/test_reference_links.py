@@ -17,6 +17,7 @@ from tests.catalogue import (
     read,
     relative_links,
     skill_dirs,
+    skills_root,
     strip_fences,
 )
 
@@ -89,6 +90,30 @@ def test_every_reference_document_is_linked_from_its_skill(skill_dir: Path) -> N
     ]
 
     assert not orphans, f"{skill_dir.name} has unlinked references: {orphans}"
+
+
+# Links that leave `skills/` are evidence pointers into the repository. The
+# users' guide documents that a copied installation lacks exactly these two
+# directories, so the set must not grow silently.
+EVIDENCE_DIRECTORIES = ("examples", "docs")
+
+
+def test_links_out_of_skills_point_only_at_evidence_directories(
+    repo_root: Path,
+) -> None:
+    """A skill may link upward only into the documented evidence directories."""
+    skills = skills_root(repo_root).resolve()
+    offenders = [
+        f"{path.relative_to(repo_root)} -> {target}"
+        for path in markdown_files(repo_root)
+        if skills in path.resolve().parents and not _is_verbatim_upstream(path)
+        for target in relative_links(read(path))
+        if skills not in _resolve(path, target).parents
+        and _resolve(path, target).relative_to(repo_root).parts[0]
+        not in EVIDENCE_DIRECTORIES
+    ]
+
+    assert not offenders, f"skills link outside the evidence directories: {offenders}"
 
 
 def test_grepped_directories_are_named_only_where_they_exist(repo_root: Path) -> None:

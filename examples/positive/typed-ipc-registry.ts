@@ -12,8 +12,10 @@ interface Channel<Req, Res> {
   readonly response: Parser<Res>;
 }
 
+// Arrays are objects too; a boundary guard that admits `[]` as `{}` would let
+// a malformed request pass as the advertised empty object.
 function isRecord(raw: unknown): raw is Record<string, unknown> {
-  return typeof raw === "object" && raw !== null;
+  return typeof raw === "object" && raw !== null && !Array.isArray(raw);
 }
 
 const parseShellRun: Parser<{ readonly command: "git" | "ls"; readonly args: readonly string[] }> = (raw) => {
@@ -56,9 +58,12 @@ export type Response<C extends CommandName> = ReturnType<(typeof commands)[C]["r
 
 // A transport is whatever carries the message: ipcRenderer.invoke, a
 // MessagePort, a test double. It is untyped on purpose; typing is restored by
-// the parsers on each side.
+// the parsers on each side. The transport owns cancellation: an AbortSignal
+// does not cross IPC, so an Electron transport allocates a request identifier,
+// sends a cancel message for it when the signal aborts, and rejects promptly
+// with the signal's reason rather than waiting for the privileged operation.
 export interface Transport {
-  readonly invoke: (channel: string, payload: unknown) => Promise<unknown>;
+  readonly invoke: (channel: string, payload: unknown, signal?: AbortSignal) => Promise<unknown>;
 }
 
 export function createInvoker(transport: Transport) {
@@ -68,7 +73,7 @@ export function createInvoker(transport: Transport) {
     signal?: AbortSignal,
   ): Promise<Response<C>> {
     signal?.throwIfAborted();
-    const raw = await transport.invoke(channel, request);
+    const raw = await transport.invoke(channel, request, signal);
     signal?.throwIfAborted();
     return commands[channel].response(raw) as Response<C>;
   };

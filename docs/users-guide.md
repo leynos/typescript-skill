@@ -12,12 +12,27 @@ mkdir -p ~/.codex/skills
 cp -a skills/* ~/.codex/skills/
 ```
 
-The same layout works for `~/.claude/skills`. The catalogue is self-contained:
-each `skills/<name>/` directory carries a `SKILL.md`, a `references/`
-directory, and (for every skill but the router) an `agents/openai.yaml` that
-opts it out of implicit invocation. A strict loader discovers a skill by its
-directory and identifies it by the manifest `name`; the two always match in a
-checkout that has passed `make check`.
+The same layout works for `~/.claude/skills`. Each `skills/<name>/` directory
+carries a `SKILL.md`, a `references/` directory, and (for every skill but the
+router) an `agents/openai.yaml` that opts it out of implicit invocation. A
+strict loader discovers a skill by its directory and identifies it by the
+manifest `name`; the two always match in a checkout that has passed
+`make check`.
+
+A few skills link upward out of `skills/`: five point at the compiled fixtures
+under `examples/`, and three references cite `docs/source-inventory.md`. Those
+are evidence links. The skill states the claim in its own text and the link
+shows where the gate proves it; nothing routes through them at runtime, so a
+copied installation loses nothing but the proof. To keep the links live,
+install from a checkout instead of copying:
+
+```bash
+git clone https://github.com/leynos/typescript-skill.git ~/src/typescript-skill
+ln -s ~/src/typescript-skill/skills/* ~/.codex/skills/
+```
+
+`tests/test_reference_links.py` keeps upward links confined to `examples/` and
+`docs/`, so the set of directories an installation may lack stays those two.
 
 ## Invocation
 

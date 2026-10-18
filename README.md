@@ -42,7 +42,11 @@ mkdir -p ~/.codex/skills
 cp -a skills/* ~/.codex/skills/
 ```
 
-The same layout works for `~/.claude/skills`.
+The same layout works for `~/.claude/skills`. A copied installation keeps every
+skill and reference; links from a few skills to the compiled fixtures under
+`examples/` and to `docs/` are evidence pointers that resolve only in a
+checkout. To keep them live, clone the repository and symlink `skills/*`
+instead, as the [users' guide](docs/users-guide.md) shows.
 
 ### Basic usage
 

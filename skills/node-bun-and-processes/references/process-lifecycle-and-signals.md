@@ -83,8 +83,8 @@ synchronous and quick.
 A process stays alive while a timer, socket, or handle is referenced. Use
 `timer.unref()` for background timers that should not hold the process open,
 and track every interval so shutdown can clear it. A process that "hangs on
-exit" has an unreferenced handle somewhere; `process.getActiveResourcesInfo()`
-names it.
+exit" has a referenced handle somewhere, a timer or socket nobody unreferenced
+or closed; `process.getActiveResourcesInfo()` names it.
 
 ## Health and readiness
 
