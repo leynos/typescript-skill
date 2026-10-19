@@ -34,6 +34,7 @@ backpressure. Manual `.pipe()` does none of the first two.
 import { spawn } from "node:child_process";
 
 const maxOutputBytes = 8 * 1024 * 1024; // the budget is stated, not implied
+const killGraceMs = 2_000; // how long a child may ignore SIGTERM
 
 export async function run(
   command: string,
@@ -44,10 +45,16 @@ export async function run(
   const stdout: Buffer[] = [];
   const stderr: Buffer[] = [];
   let retained = 0;
+  let escalation: ReturnType<typeof setTimeout> | undefined;
+  const terminate = () => {
+    if (escalation !== undefined) return; // SIGTERM already sent
+    child.kill("SIGTERM");
+    escalation = setTimeout(() => child.kill("SIGKILL"), killGraceMs);
+  };
   const collect = (into: Buffer[]) => (chunk: Buffer) => {
     retained += chunk.byteLength;
     if (retained > maxOutputBytes) {
-      child.kill(); // the bound is enforced here, not after the fact
+      terminate(); // the bound is enforced here, not after the fact
       return;
     }
     into.push(chunk);
@@ -59,7 +66,7 @@ export async function run(
       child.once("error", reject);
       child.once("close", (c, s) => resolve([c, s]));
     },
-  );
+  ).finally(() => clearTimeout(escalation));
   if (retained > maxOutputBytes) {
     throw new AppError("child-output-exceeded", `${command} exceeded ${maxOutputBytes} bytes`, {
       data: { command, maxOutputBytes },
@@ -79,6 +86,8 @@ export async function run(
 - `signal` kills the child when the parent scope closes.
 - Await `close`, which fires after stdio has drained; `exit` can fire first.
 - Bound the collected output, or stream it, when the child can be verbose.
+- A child may ignore `SIGTERM`. Escalate to `SIGKILL` after a stated grace
+  period, and clear the timer once `close` fires, or the wait never settles.
 - Classify by exit code and signal; a `null` code with a signal means the
   child was killed.
 
