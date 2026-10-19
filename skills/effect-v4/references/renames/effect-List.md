@@ -39,16 +39,16 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   persistent linked lists.
 - `List.getEquivalence` -> `Array.makeEquivalence`: List was removed; compare
   the replacement arrays with Array.makeEquivalence.
-- `List.head` -> `Array.head`: List was removed; use Array.head. It preserves
-  ordering but returns arrays rather than persistent linked lists.
+- `List.head` -> `Array.head`: List was removed; use Array.head on the
+  replacement array. It returns Option.Option\<A\>, None for an empty array.
 - `List.isCons` -> `Array.isReadonlyArrayNonEmpty`: List was removed; this
   checks that the replacement readonly array is non-empty.
 - `List.isList` -> `Array.isArray`: The List brand is gone; this now recognizes
   the replacement JavaScript array representation.
 - `List.isNil` -> `Array.isReadonlyArrayEmpty`: List was removed; this checks
   that the replacement readonly array is empty.
-- `List.last` -> `Array.last`: List was removed; use Array.last. It preserves
-  ordering but returns arrays rather than persistent linked lists.
+- `List.last` -> `Array.last`: List was removed; use Array.last on the
+  replacement array. It returns Option.Option\<A\>, None for an empty array.
 - `List.make` -> `Array.make`: List was removed; use Array.make. It preserves
   ordering but returns arrays rather than persistent linked lists.
 - `List.map` -> `Array.map`: List was removed; use Array.map. It preserves
@@ -66,11 +66,11 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   persistent linked lists.
 - `List.prependAllReversed` -> `Array.prependAll + Array.reverse`: Use
   Array.prependAll(self, Array.reverse(prefix)) to preserve the old ordering.
-- `List.reduce` -> `Array.reduce`: List was removed; use Array.reduce. It
-  preserves ordering but returns arrays rather than persistent linked lists.
+- `List.reduce` -> `Array.reduce`: List was removed; use Array.reduce on the
+  replacement array. It folds left to right and returns the accumulator.
 - `List.reduceRight` -> `Array.reduceRight`: List was removed; use
-  Array.reduceRight. It preserves ordering but returns arrays rather than
-  persistent linked lists.
+  Array.reduceRight on the replacement array. It folds right to left and
+  returns the accumulator.
 - `List.reverse` -> `Array.reverse`: List was removed; use Array.reverse. It
   preserves ordering but returns arrays rather than persistent linked lists.
 - `List.size` -> `Array.length`: List was removed; use the replacement array

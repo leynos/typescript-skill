@@ -15,8 +15,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   Create an empty list with MutableList.make, then append the iterable with
   MutableList.appendAll.
 - `MutableList.head` -> `MutableList.toArrayN`: Use MutableList.toArrayN(self,
-  1)[0]; the redesigned FIFO exposes buckets rather than the old
-  Option-returning accessor.
+  1)[0]; the redesigned FIFO exposes buckets rather than the old accessor, and
+  both return undefined for an empty list.
 - `MutableList.isEmpty` -> `none`: Read self.length === 0; no named isEmpty
   helper remains.
 - `MutableList.length` -> `none`: Read the public self.length field; no named

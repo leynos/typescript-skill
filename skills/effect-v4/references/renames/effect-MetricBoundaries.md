@@ -16,6 +16,6 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
 - `MetricBoundaries.isMetricBoundaries` -> `none`: Boundaries are unbranded
   arrays, so the guard and public type-id symbol have no replacement.
 - `MetricBoundaries.linear` -> `Metric.linearBoundaries`: Moved into
-  effect/Metric, but the compared v4 implementation uses start + i + width
-  rather than v3's start + i \* width. Preserve the v3 formula manually when
-  width is not 1.
+  effect/Metric and now returns ReadonlyArray\<number\>. The v4 implementation
+  keeps the v3 formula start + i \* width for i below count - 1, filters
+  non-positive values, and appends Infinity.

@@ -18,9 +18,9 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   observable by synchronously polling the Fiber.
 - `FiberStatus.isFiberStatus` -> `none`: FiberStatus values no longer exist;
   inspect a Fiber with pollUnsafe instead.
-- `FiberStatus.isRunning` -> `fiber.pollUnsafe() === undefined`: V4 only
-  exposes incomplete versus completed; it does not distinguish running from
-  suspended.
+- `FiberStatus.isRunning` -> `none`: V4 only exposes incomplete versus
+  completed, so fiber.pollUnsafe() === undefined is true for suspended fibers
+  as well as running ones; no replacement distinguishes running from suspended.
 - `FiberStatus.isSuspended` -> `none`: The public runtime no longer exposes
   suspended status.
 - `FiberStatus.running` -> `none`: FiberStatus constructors were removed; keep

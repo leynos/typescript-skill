@@ -33,6 +33,8 @@ marked 'Still exported in v4' upstream are omitted: those APIs keep their name.
   low-level synchronous alternative.
 - `MutableQueue.pollUpTo` -> `Queue.takeUnsafe`: No direct non-blocking
   take-up-to helper remains; repeatedly call Queue.takeUnsafe and collect
-  successful exits without waiting.
+  successful exits without waiting. Stop when it returns undefined (empty) or a
+  failure exit: once the queue has ended or failed, every call returns that
+  terminal exit, so a loop that only counts successes never finishes.
 - `MutableQueue.unbounded` -> `Queue.unbounded`: The unbounded replacement
   constructor is effectful.
