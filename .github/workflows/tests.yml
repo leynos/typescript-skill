@@ -1,0 +1,72 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    # A small pure-Python suite plus one TypeScript type-check stays on a
+    # GitHub-hosted runner; the ceiling is a generous multiple of that.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v4
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6.8.0
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
+        with:
+          bun-version: 1.4.3
+
+      # The job runs the same gates as a local `make check`, so every external
+      # tool the Makefile calls is installed here. `tests/test_ci_workflow.py`
+      # fails when this step list and the Makefile's `check` prerequisites
+      # drift apart.
+
+      # The check-fmt gate runs mdtablefix for real. 0.6.1 is the first release
+      # that supports --git selection.
+      - name: Install mdtablefix
+        uses: >-
+          leynos/shared-actions/.github/actions/install-mdtablefix@a5765019912a8ab6882b12db049c7cde635f3a85
+        with:
+          version: '0.6.1'
+
+      # `make markdownlint` is a prerequisite of both check-fmt and lint. The
+      # pin matches the release other estate repositories install from Bun.
+      - name: Install markdownlint-cli2
+        run: bun install -g markdownlint-cli2@0.22.1
+
+      # `make nixie` validates Mermaid diagrams; the shared action installs the
+      # pinned nixie-cli and the verified Merman renderer it needs.
+      - name: Install Nixie
+        uses: >-
+          leynos/shared-actions/.github/actions/install-nixie@81374b6f183e59f0570ad36217ded90d3240fda6
+
+      - name: Check formatting
+        run: make check-fmt
+
+      - name: Lint
+        run: make lint
+
+      - name: Type-check the test suite
+        run: make typecheck
+
+      - name: Type-check the TypeScript examples
+        run: make examples
+
+      - name: Run the tests
+        run: make test
