@@ -40,7 +40,11 @@ def find_node_modules(start: pathlib.Path) -> pathlib.Path | None:
 
 
 def package_dists(node_modules: pathlib.Path) -> list[tuple[str, pathlib.Path]]:
-    """List ``effect`` and each installed ``@effect/*`` package with its ``dist`` directory."""
+    """List ``effect`` and each installed ``@effect/*`` package with its ``dist`` directory.
+
+    ``effect`` is listed without checking that its ``dist`` exists; a scoped
+    package is listed only when it has a ``dist`` directory.
+    """
     dists: list[tuple[str, pathlib.Path]] = [("effect", node_modules / "effect" / "dist")]
     scoped = node_modules / "@effect"
     if scoped.is_dir():
@@ -51,7 +55,10 @@ def package_dists(node_modules: pathlib.Path) -> list[tuple[str, pathlib.Path]]:
 
 
 def module_files(dists: list[tuple[str, pathlib.Path]], module: str) -> list[tuple[str, pathlib.Path]]:
-    """Find each public ``<module>.d.ts`` and pair it with its import specifier."""
+    """Find each ``<module>.d.ts`` outside ``internal`` paths, with its import specifier.
+
+    Package exports are not consulted, so a result is not guaranteed importable.
+    """
     found = []
     for pkg, dist in dists:
         for path in dist.rglob(f"{module}.d.ts"):
@@ -164,7 +171,10 @@ def rename_hints(query: str) -> list[str]:
 
 
 def main() -> int:
-    """Look each query up in the installed Effect declarations and the rename tables."""
+    """Look each query up in the installed Effect declarations.
+
+    The rename tables are searched only for a member query that is missing.
+    """
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("queries", nargs="+")
     parser.add_argument("--root", type=pathlib.Path, default=pathlib.Path.cwd(),

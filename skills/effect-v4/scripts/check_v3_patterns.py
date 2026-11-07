@@ -126,8 +126,9 @@ RULES: list[Rule] = [
 def iter_files(paths: list[pathlib.Path]):
     """Yield each file named in ``paths``, and the TypeScript sources under each directory.
 
-    Declaration files and anything under ``node_modules``, ``dist``, ``build`` or
-    ``.git`` are skipped.
+    A named file is yielded as given. While walking a directory, declaration
+    files and anything under ``node_modules``, ``dist``, ``build`` or ``.git``
+    are skipped.
     """
     for root in paths:
         if root.is_file():
@@ -144,7 +145,9 @@ def iter_files(paths: list[pathlib.Path]):
 def strip_comments(line: str, in_block: bool) -> tuple[str, bool]:
     """Remove comments from one line, tracking an open block comment across lines.
 
-    Returns the remaining code and whether a block comment is still open.
+    This is a text scan, not a parser: a comment marker inside a string literal
+    also starts a comment. Returns the remaining code and whether a block
+    comment is still open.
     """
     out, i = [], 0
     while i < len(line):

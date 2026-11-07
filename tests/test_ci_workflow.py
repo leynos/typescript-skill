@@ -40,7 +40,11 @@ def _workflow_steps(repo_root: Path) -> list[dict[str, Any]]:
 
 
 def _make_targets(steps: list[dict[str, Any]]) -> list[str]:
-    """List the targets of the ``make`` commands the steps run, in step order."""
+    """List the targets of the steps' standalone ``make <target>`` lines, in step order.
+
+    Only lines holding one lower-case target are matched; a ``make`` command
+    with flags or several targets is not collected.
+    """
     targets: list[str] = []
     for step in steps:
         run = step.get("run")
