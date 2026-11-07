@@ -96,7 +96,10 @@ def export_blocks(text: str) -> list[tuple[int, list[tuple[str, str]]]]:
 
 
 def find_member(text: str, member: str) -> int | None:
-    """Return the index of the line declaring or re-exporting ``member``, else ``None``."""
+    """Return the index of the line declaring ``member``, else ``None``.
+
+    For ``export { local as member }`` it returns the line declaring ``local``.
+    """
     lines = text.splitlines()
     for pattern in (DECL, TYPE_DECL, STAR, NAMESPACE):
         regex = re.compile(pattern.format(name=re.escape(member)))
@@ -115,7 +118,11 @@ def find_member(text: str, member: str) -> int | None:
 
 
 def jsdoc_tags(lines: list[str], index: int) -> str:
-    """Join the ``@since``, ``@stability`` and ``@deprecated`` tags of the comment above ``index``."""
+    """Join the ``@since``, ``@stability`` and ``@deprecated`` tags above ``index``.
+
+    Only the comment's continuation lines count: a tag on the opening ``/**``
+    line is skipped.
+    """
     tags = []
     j = index - 1
     while j >= 0:
