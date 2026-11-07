@@ -98,7 +98,8 @@ def export_blocks(text: str) -> list[tuple[int, list[tuple[str, str]]]]:
 def find_member(text: str, member: str) -> int | None:
     """Return the index of the line declaring ``member``, else ``None``.
 
-    For ``export { local as member }`` it returns the line declaring ``local``.
+    For ``export { local as member }`` it returns the line declaring ``local``,
+    or the export block's line when no matching declaration is found.
     """
     lines = text.splitlines()
     for pattern in (DECL, TYPE_DECL, STAR, NAMESPACE):
