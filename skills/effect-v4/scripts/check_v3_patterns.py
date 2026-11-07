@@ -126,8 +126,8 @@ RULES: list[Rule] = [
 def iter_files(paths: list[pathlib.Path]):
     """Yield each file named in ``paths``, and the TypeScript sources under each directory.
 
-    A named file is yielded as given. While walking a directory, declaration
-    files and anything under ``node_modules``, ``dist``, ``build`` or ``.git``
+    A named file is yielded as given. While walking a directory, ``.d.ts``
+    declaration files and anything under ``node_modules``, ``dist``, ``build`` or ``.git``
     are skipped.
     """
     for root in paths:

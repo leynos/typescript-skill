@@ -79,13 +79,15 @@ INTERROGATE ?= $(UV_GATE) tool --python 3.13 --from 'interrogate==$(INTERROGATE_
 # Interrogate rounds its percentage to one decimal, so `--fail-under 100` alone
 # can pass a lone gap in a large repository. This recipe also fails when `grep`
 # finds a MISSED row in the report on standard output, which `-vv` or higher
-# prints for each undocumented definition. This Makefile runs recipes with `-e`,
-# so the status is captured with `&& ... ||` to print the report on failure too.
+# prints for each undocumented definition. This Makefile runs recipes with `-e`
+# and `pipefail`: the status is captured with `&& ... ||` so the report prints on
+# failure too, and `grep` reads the whole report (no `-q`) so that `printf` is
+# never cut off by a SIGPIPE.
 interrogate: ## Enforce complete Python docstring coverage
 	@report="$$($(INTERROGATE) $(INTERROGATE_FLAGS) $(INTERROGATE_TARGETS))" && status=0 || status=$$?; \
 	  printf '%s\n' "$$report"; \
 	  test "$$status" -eq 0 || exit "$$status"; \
-	  if printf '%s\n' "$$report" | grep -q '| *MISSED *|'; then \
+	  if printf '%s\n' "$$report" | grep '| *MISSED *|' >/dev/null; then \
 	    printf '%s\n' 'interrogate: undocumented definitions remain; see the MISSED rows above' >&2; \
 	    exit 1; \
 	  fi
