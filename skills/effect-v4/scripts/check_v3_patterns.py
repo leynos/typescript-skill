@@ -25,6 +25,8 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Rule:
+    """One regex rule: what it matches, its replacement, and whether a human must review it."""
+
     name: str
     pattern: re.Pattern[str]
     replacement: str
@@ -32,6 +34,7 @@ class Rule:
 
 
 def r(name: str, pattern: str, replacement: str, review: bool = False) -> Rule:
+    """Build a ``Rule``, compiling ``pattern``."""
     return Rule(name, re.compile(pattern), replacement, review)
 
 
@@ -121,6 +124,13 @@ RULES: list[Rule] = [
 
 
 def iter_files(paths: list[pathlib.Path]):
+    """Yield each file named in ``paths``, and the TypeScript paths under each directory.
+
+    A named file is yielded as given. While walking a directory, every path
+    ending in ``.ts``, ``.tsx``, ``.mts`` or ``.cts`` is yielded, without a
+    check that it is a file, except ``.d.ts`` declaration files and anything
+    under ``node_modules``, ``dist``, ``build`` or ``.git``.
+    """
     for root in paths:
         if root.is_file():
             yield root
@@ -134,6 +144,12 @@ def iter_files(paths: list[pathlib.Path]):
 
 
 def strip_comments(line: str, in_block: bool) -> tuple[str, bool]:
+    """Remove comments from one line, tracking an open block comment across lines.
+
+    This is a text scan, not a parser: a comment marker inside a string literal
+    also starts a comment. Returns the remaining code and whether a block
+    comment is still open.
+    """
     out, i = [], 0
     while i < len(line):
         if in_block:
@@ -153,6 +169,7 @@ def strip_comments(line: str, in_block: bool) -> tuple[str, bool]:
 
 
 def main() -> int:
+    """Scan the given paths, print the findings, and return 1 if there were any."""
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("paths", nargs="+", type=pathlib.Path)
     parser.add_argument("--json", action="store_true", help="emit machine-readable findings")

@@ -31,6 +31,7 @@ RENAMES = SKILL_DIR / "references" / "renames"
 
 
 def find_node_modules(start: pathlib.Path) -> pathlib.Path | None:
+    """Return the nearest ``node_modules`` holding ``effect``, searching ``start`` and upwards."""
     for directory in [start, *start.parents]:
         candidate = directory / "node_modules" / "effect" / "package.json"
         if candidate.is_file():
@@ -39,6 +40,11 @@ def find_node_modules(start: pathlib.Path) -> pathlib.Path | None:
 
 
 def package_dists(node_modules: pathlib.Path) -> list[tuple[str, pathlib.Path]]:
+    """List ``effect`` and each installed ``@effect/*`` package with its ``dist`` directory.
+
+    ``effect`` is listed without checking that its ``dist`` exists; a scoped
+    package is listed only when it has a ``dist`` directory.
+    """
     dists: list[tuple[str, pathlib.Path]] = [("effect", node_modules / "effect" / "dist")]
     scoped = node_modules / "@effect"
     if scoped.is_dir():
@@ -49,6 +55,10 @@ def package_dists(node_modules: pathlib.Path) -> list[tuple[str, pathlib.Path]]:
 
 
 def module_files(dists: list[tuple[str, pathlib.Path]], module: str) -> list[tuple[str, pathlib.Path]]:
+    """Find each ``<module>.d.ts`` outside ``internal`` paths, with its import specifier.
+
+    Package exports are not consulted, so a result is not guaranteed importable.
+    """
     found = []
     for pkg, dist in dists:
         for path in dist.rglob(f"{module}.d.ts"):
@@ -86,6 +96,11 @@ def export_blocks(text: str) -> list[tuple[int, list[tuple[str, str]]]]:
 
 
 def find_member(text: str, member: str) -> int | None:
+    """Return the index of the line declaring ``member``, else ``None``.
+
+    For ``export { local as member }`` it returns the line declaring ``local``,
+    or the export block's line when no matching declaration is found.
+    """
     lines = text.splitlines()
     for pattern in (DECL, TYPE_DECL, STAR, NAMESPACE):
         regex = re.compile(pattern.format(name=re.escape(member)))
@@ -104,6 +119,11 @@ def find_member(text: str, member: str) -> int | None:
 
 
 def jsdoc_tags(lines: list[str], index: int) -> str:
+    """Join the ``@since``, ``@stability`` and ``@deprecated`` tags above ``index``.
+
+    Only the comment's continuation lines count: a tag on the opening ``/**``
+    line is skipped.
+    """
     tags = []
     j = index - 1
     while j >= 0:
@@ -146,6 +166,7 @@ def rename_entries(text: str) -> list[str]:
 
 
 def rename_hints(query: str) -> list[str]:
+    """List the rename-table entries that begin with ``query``, each prefixed by its file."""
     if not RENAMES.is_dir():
         return []
     needle = f"`{query}` ->"
@@ -158,6 +179,10 @@ def rename_hints(query: str) -> list[str]:
 
 
 def main() -> int:
+    """Look each query up in the installed Effect declarations.
+
+    The rename tables are searched only for a member query that is missing.
+    """
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("queries", nargs="+")
     parser.add_argument("--root", type=pathlib.Path, default=pathlib.Path.cwd(),

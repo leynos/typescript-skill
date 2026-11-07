@@ -27,6 +27,10 @@ INLINE_CODE = re.compile(r"`[^`]*`")
 
 
 def _catalogue_owned(repo_root: Path) -> list[Path]:
+    """List the Markdown files this catalogue owns.
+
+    The root README and the files of imported skills are not included.
+    """
     skills = skills_root(repo_root).resolve()
     owned: list[Path] = []
     for path in markdown_files(repo_root):

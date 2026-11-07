@@ -37,6 +37,7 @@ Prose after a blank line is not part of any item.
 
 
 def _load(repo_root: Path, renames: Path) -> ModuleType:
+    """Import ``has_export`` with its rename tables taken from ``renames``."""
     spec = importlib.util.spec_from_file_location("has_export", repo_root / SCRIPT)
     assert spec is not None and spec.loader is not None, f"cannot load {SCRIPT}"
     module = importlib.util.module_from_spec(spec)
@@ -106,6 +107,7 @@ def test_every_shipped_row_yields_a_replacement(repo_root: Path) -> None:
 def _run(
     repo_root: Path, script: str, *arguments: str
 ) -> subprocess.CompletedProcess[str]:
+    """Run ``script`` in an isolated interpreter and capture its output as text."""
     return subprocess.run(
         [sys.executable, "-I", str(repo_root / script), *arguments],
         capture_output=True,

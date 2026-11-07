@@ -35,6 +35,7 @@ BROKEN_SYNTAX_ERROR = "syntax error: expected ',' or ']', but got '<document sta
 
 
 def _run_make(target: str, *skill_dirs_: Path) -> subprocess.CompletedProcess[str]:
+    """Run ``make target``, scoped by ``SKILL_DIRS`` when directories are given."""
     arguments = ["make", target]
     if skill_dirs_:
         arguments.append("SKILL_DIRS=" + " ".join(f"{d}/" for d in skill_dirs_))
@@ -44,12 +45,14 @@ def _run_make(target: str, *skill_dirs_: Path) -> subprocess.CompletedProcess[st
 
 
 def _write_manifest(skill_dir: Path, body: str) -> Path:
+    """Create ``skill_dir`` holding a ``SKILL.md`` with ``body`` and return it."""
     skill_dir.mkdir()
     (skill_dir / "SKILL.md").write_text(body, encoding="utf-8")
     return skill_dir
 
 
 def _openai_policy(skill_dir: Path) -> dict[str, object] | None:
+    """Return the ``policy`` mapping of ``agents/openai.yaml``, or ``None``."""
     config = skill_dir / "agents" / "openai.yaml"
     if not config.is_file():
         return None
