@@ -63,6 +63,7 @@ ALLOWED_FRONTMATTER_KEYS = frozenset(
 
 
 def _matrix(repo_root: Path) -> str:
+    """Return the text of the router skill's routing matrix."""
     return read(repo_root / "skills" / ROUTER / "references" / "routing-matrix.md")
 
 

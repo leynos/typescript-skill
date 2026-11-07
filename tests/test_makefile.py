@@ -15,6 +15,7 @@ import pytest
 
 
 def _plan(repo_root: Path, *targets: str) -> str:
+    """Return what ``make -n`` would run for ``targets``, asserting that it succeeds."""
     result = subprocess.run(
         ["make", "--no-print-directory", "-n", *targets],
         cwd=repo_root,

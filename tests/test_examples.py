@@ -26,6 +26,7 @@ EXPECT_ERROR = re.compile(r"^\s*// @ts-expect-error\b", re.MULTILINE)
 
 
 def _fixtures(kind: str) -> list[Path]:
+    """Return the sorted ``.ts`` fixtures under the examples ``kind`` directory."""
     return sorted((EXAMPLES / kind).glob("*.ts"))
 
 

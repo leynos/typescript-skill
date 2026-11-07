@@ -30,6 +30,7 @@ EXTERNAL_TOOLS: dict[str, str] = {
 
 
 def _workflow_steps(repo_root: Path) -> list[dict[str, Any]]:
+    """Return the mapping steps of the workflow's single ``tests`` job."""
     document = yaml.safe_load((repo_root / WORKFLOW).read_text(encoding="utf-8"))
     jobs = document["jobs"]
     assert list(jobs) == ["tests"], "the workflow has one job named tests"
@@ -39,6 +40,7 @@ def _workflow_steps(repo_root: Path) -> list[dict[str, Any]]:
 
 
 def _make_targets(steps: list[dict[str, Any]]) -> list[str]:
+    """List the targets of the ``make`` commands the steps run, in step order."""
     targets: list[str] = []
     for step in steps:
         run = step.get("run")
@@ -48,6 +50,7 @@ def _make_targets(steps: list[dict[str, Any]]) -> list[str]:
 
 
 def _check_prerequisites(repo_root: Path) -> list[str]:
+    """Return the prerequisites the Makefile's ``check`` target lists."""
     makefile = (repo_root / "Makefile").read_text(encoding="utf-8")
     match = re.search(r"^check:\s*([^#\n]*)", makefile, re.MULTILINE)
     assert match is not None, "the Makefile declares a check target"

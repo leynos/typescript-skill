@@ -27,6 +27,7 @@ GREPPED_DIRECTORIES = ("references/renames/", "references/upstream/")
 
 
 def _resolve(source: Path, target: str) -> Path:
+    """Resolve a link ``target`` relative to the directory of the ``source`` file."""
     return (source.parent / target).resolve()
 
 
@@ -79,6 +80,7 @@ def test_every_reference_document_is_linked_from_its_skill(skill_dir: Path) -> N
                     mentioned_dirs.add((skill_dir / directory).resolve())
 
     def reachable(reference: Path) -> bool:
+        """Report whether ``reference`` is linked or under a mentioned directory."""
         if reference.resolve() in linked:
             return True
         return any(parent in mentioned_dirs for parent in reference.resolve().parents)
