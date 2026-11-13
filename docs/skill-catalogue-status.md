@@ -153,12 +153,12 @@ TypeScript 7.0.2 with Bun 1.4.3.
   contain, dated.
 - [Routing scenarios](routing-scenarios.md) — the router's evaluation set,
   with the six design scenarios pinned by the contract suite.
-- [ADR 0001](adr/0001-verification-skill-ownership.md) — the verification
+- [ADR 0001](adrs/adr-0001-verification-skill-ownership.md) — the verification
   deep dives move here and `typescript-verification` owns them.
-- [ADR 0002](adr/0002-typescript-7-versioned-boundary.md) — why the
+- [ADR 0002](adrs/adr-0002-typescript-7-versioned-boundary.md) — why the
   TypeScript 7 material is version-pinned.
-- [ADR 0003](adr/0003-imported-skill-provenance.md) — how imported skills are
-  adapted and what is left alone.
+- [ADR 0003](adrs/adr-0003-imported-skill-provenance.md) — how imported skills
+  are adapted and what is left alone.
 
 ## Maintenance
 

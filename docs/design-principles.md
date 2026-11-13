@@ -141,10 +141,10 @@ the browser or Node skill.
 `fast-check` and `lemmascript` were written for the TypeScript verification
 work and merged elsewhere before this catalogue existed. Rewriting them would
 create two divergent copies. They are moved here with their names kept, and
-[ADR 0001](adr/0001-verification-skill-ownership.md) records that this
+[ADR 0001](adrs/adr-0001-verification-skill-ownership.md) records that this
 catalogue is now their canonical home. The same applies to the Zod, Biome, and
-Effect skills; [ADR 0003](adr/0003-imported-skill-provenance.md) records their
-provenance.
+Effect skills; [ADR 0003](adrs/adr-0003-imported-skill-provenance.md) records
+their provenance.
 
 ## 5. Evidence model
 
