@@ -62,19 +62,19 @@ fixtures in any list position and that every non-router skill ships
 
 ## What the contract suite covers
 
-| Test module                 | Invariant                                                                                                                                                      |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `test_skill_catalogue.py`   | Directory and manifest names agree; every route resolves; every skill is routed; the status doc matches the tree; deep dives have one owner; line budgets hold |
-| `test_router_contract.py`   | The four opening questions are present; pinned routes and matrix rows keep their destination; the pairing cap is stated                                        |
-| `test_reference_links.py`   | Every relative link resolves; every reference is linked from its skill (grepped directories count by name)                                                     |
-| `test_routing_scenarios.py` | Scenario rows name real skills; the six design scenarios keep their route                                                                                      |
-| `test_versioned_claims.py`  | Compiler-version claims appear only in versioned material; the transition skill names a release and a date                                                     |
-| `test_examples.py`          | Fixtures declare and are linked from their skill; diagnostics fixtures expect an error; the gate reaches both directories; TypeScript is pinned exactly        |
-| `test_makefile.py`          | `check` is the default goal, reaches every gate, and never rewrites                                                                                            |
-| `test_skill_manifests.py`   | Manifest targets reject malformed fixtures; invocation policy                                                                                                  |
-| `test_ci_workflow.py`       | The Tests workflow runs the `check` prerequisites in order, installs every external tool first, and pins each install                                          |
-| `test_effect_scripts.py`    | The Effect skill's `has_export.py` returns a whole wrapped rename-table row as one hint; every shipped row names a replacement; both scripts work end to end   |
-| `test_prose_style.py`       | Catalogue-owned skills and documents never address the reader in the first or second person; imported skills and the README are exempt                         |
+| Test module                 | Invariant                                                                                                                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `test_skill_catalogue.py`   | Directory and manifest names agree; every route resolves; every skill is routed; the status doc matches the tree; deep dives have one owner; line budgets hold                            |
+| `test_router_contract.py`   | The four opening questions are present; pinned routes and matrix rows keep their destination; the pairing cap is stated                                                                   |
+| `test_reference_links.py`   | Every relative link resolves, except in verbatim upstream copies and the imported documentation style guide; every reference is linked from its skill (grepped directories count by name) |
+| `test_routing_scenarios.py` | Scenario rows name real skills; the six design scenarios keep their route                                                                                                                 |
+| `test_versioned_claims.py`  | Compiler-version claims appear only in versioned material; the transition skill names a release and a date                                                                                |
+| `test_examples.py`          | Fixtures declare and are linked from their skill; diagnostics fixtures expect an error; the gate reaches both directories; TypeScript is pinned exactly                                   |
+| `test_makefile.py`          | `check` is the default goal, reaches every gate, and never rewrites                                                                                                                       |
+| `test_skill_manifests.py`   | Manifest targets reject malformed fixtures; invocation policy                                                                                                                             |
+| `test_ci_workflow.py`       | The Tests workflow runs the `check` prerequisites in order, installs every external tool first, and pins each install                                                                     |
+| `test_effect_scripts.py`    | The Effect skill's `has_export.py` returns a whole wrapped rename-table row as one hint; every shipped row names a replacement; both scripts work end to end                              |
+| `test_prose_style.py`       | Catalogue-owned skills and documents never address the reader in the first or second person; imported skills, the README and the imported documentation style guide are exempt            |
 
 _Table 2: Test modules and the invariants each one holds._
 

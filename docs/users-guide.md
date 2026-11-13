@@ -159,12 +159,12 @@ Some skills were written elsewhere and imported with their content intact:
   Effect against the skill's rename tables.
 - `fast-check` and `lemmascript`, the verification deep dives, reached from
   `typescript-verification`. This catalogue is their canonical home
-  ([ADR 0001](adr/0001-verification-skill-ownership.md)).
+  ([ADR 0001](adrs/adr-0001-verification-skill-ownership.md)).
 - `biome-typescript` for Biome configuration, migration, and rule semantics,
   reached from `typescript-quality-tools`.
 
 They keep their original voice and spelling; see
-[ADR 0003](adr/0003-imported-skill-provenance.md).
+[ADR 0003](adrs/adr-0003-imported-skill-provenance.md).
 
 ## Common pitfalls
 

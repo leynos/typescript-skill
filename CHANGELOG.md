@@ -23,15 +23,15 @@ follows [Common Changelog](https://common-changelog.org/).
   question-first selector.
 - Imported verification deep dives `fast-check` and `lemmascript`, now owned
   by `typescript-verification`
-  ([ADR 0001](docs/adr/0001-verification-skill-ownership.md)).
+  ([ADR 0001](docs/adrs/adr-0001-verification-skill-ownership.md)).
 - `typescript-quality-tools`, assigning one owner per static concern and
   specifying the `prefer-css-state` rule and browser preset for `df12-lints`,
   and `typescript-7-transition`, version-pinned to TypeScript 7.0.2
-  ([ADR 0002](docs/adr/0002-typescript-7-versioned-boundary.md)).
+  ([ADR 0002](docs/adrs/adr-0002-typescript-7-versioned-boundary.md)).
 - Imported deep dive `biome-typescript`, owned by `typescript-quality-tools`.
 - Imported deep dives `zod4-typescript` and `effect-v4`, with manifests
   adapted to the catalogue's contract
-  ([ADR 0003](docs/adr/0003-imported-skill-provenance.md)).
+  ([ADR 0003](docs/adrs/adr-0003-imported-skill-provenance.md)).
 - `docs/routing-scenarios.md`, the router's evaluation set, with its contract
   test pinning the six design scenarios.
 - Architecture decision records for verification ownership, the TypeScript 7

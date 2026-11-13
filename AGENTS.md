@@ -76,7 +76,7 @@ Claims about compiler behaviour are evidenced, not remembered.
 - Write en-GB-oxendict prose (`-ize`, `-our`) in the catalogue's own skills
   and documents, wrapped at 80 columns, with sentence-case headings, dash
   bullets, and language-labelled fences. Imported skills keep their original
-  spelling; see [ADR 0003](docs/adr/0003-imported-skill-provenance.md).
+  spelling; see [ADR 0003](docs/adrs/adr-0003-imported-skill-provenance.md).
 - Caption every table (`_Table N: …_`) and diagram (`_Figure N: …_`), with a
   screen-reader description before each diagram, and use `plaintext` for fences
   that hold no code.

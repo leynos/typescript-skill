@@ -35,9 +35,13 @@ def _is_verbatim_upstream(path: Path) -> bool:
     """Say whether a file is a verbatim upstream copy the catalogue never edits.
 
     Such copies may link to files that were not copied; fixing those links
-    would mean editing the copy, which ADR 0003 rules out.
+    would mean editing the copy, which ADR 0003 rules out. The shared
+    documentation style guide is imported byte for byte in the same way.
     """
-    return "references/upstream/" in path.as_posix()
+    return (
+        "references/upstream/" in path.as_posix()
+        or path.name == "documentation-style-guide.md"
+    )
 
 
 def test_every_relative_link_resolves(repo_root: Path) -> None:
